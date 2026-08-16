@@ -1,0 +1,72 @@
+/* Watercolor background prototype.
+   Tokens mirror WC_PALETTES["moonlit-dragon"] in js/main.js (the one source of
+   palette truth for the sim); JS re-stamps these custom props on palette switch. */
+:root {
+  --wc-paper: #e9e4cf;
+  --wc-ink: #2f5c63;
+  --wc-celadon: #77928a;
+  --wc-gold: #d9b96c;
+  --wc-text: #1d3a42;
+}
+
+* { box-sizing: border-box; }
+
+/* The site is a one-page scroll journey; `overflow: hidden` and a pinned
+   100% height belong to the prototype shell, not here. styles.css used to have
+   to undo both. */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background: var(--wc-paper);
+  color: var(--wc-text);
+}
+
+#wc-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none; /* pointer handling lives on window so the hero stays interactive */
+  z-index: 0;
+  background: var(--wc-paper);
+}
+
+/* ---------------------------------------------------------------- hero
+   Prototype-shell hero chrome. The site's own hero lives in styles.css; the
+   only thing kept here is the left indent, because that is what the shipped
+   page currently looks like. The `wc-rise` animation is deliberately gone: a
+   `both`-filled keyframe pinned opacity to 1 forever, which silently ate the
+   scroll descent's hero fade. */
+
+.hero {
+  margin-left: clamp(2.5rem, 9vw, 9rem);
+  pointer-events: auto;
+}
+
+.hero h1 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(2.75rem, 6vw, 4.75rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  color: var(--wc-text);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--wc-paper) 80%, transparent);
+}
+
+.hero p {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.6vw, 1.125rem);
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--wc-text) 82%, var(--wc-paper));
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--wc-paper) 70%, transparent);
+}
+
+
+/* ------------------------------------------------------ reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise { animation: none; }
+}
+/* ?reduced=1 forces the same treatment (media query can't be forced from JS) */
+html.wc-reduced .hero-rise { animation: none; }

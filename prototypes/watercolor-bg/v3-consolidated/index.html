@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watercolor background — prototype</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<img id="wc-art-field" alt="" hidden aria-hidden="true">
+<img id="wc-art-fallback" alt="" hidden aria-hidden="true">
+<canvas id="wc-canvas" aria-hidden="true"></canvas>
+
+<main class="hero-wrap">
+  <div class="hero" id="hero">
+    <h1>Landon Tu</h1>
+    <p>personal site · work in progress</p>
+  </div>
+</main>
+
+<div id="wc-panel-mount"></div>
+
+<!-- Classic scripts in dependency order: file:// compatible, no modules, no fetch. -->
+<script src="js/art-data.js"></script>
+<script src="js/shaders.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/panel.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

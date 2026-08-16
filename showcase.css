@@ -1,0 +1,114 @@
+/* watercolor.html — the showcase's own chrome, and nothing else.
+   Everything visual here is expressed in styles.css tokens (--ink, --paper,
+   --glass, --line, --ease-out), so the exhibit reads as part of the same site
+   in both themes and there is no second palette to keep in step.
+
+   What this file does NOT do: restyle the panel (watercolor-panel.css owns it),
+   restyle the canvas layer (watercolor.css owns it), or introduce a knob. The
+   sim is shared with index.html verbatim. */
+
+/* One screen, no scroll. The site is a scroll journey; this is a single piece
+   in a frame, so the document is exactly the viewport and the wash is never
+   cropped by a scrollbar. `overscroll-behavior` stops a trackpad flick from
+   rubber-banding the fixed layer on macOS/iOS. */
+html.showcase-html, body.showcase-page {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.showcase-page .watercolor { z-index: 0; }
+
+/* ------------------------------------------------------------------ bar */
+
+.showcase-bar {
+  position: fixed; inset: 0 auto auto 0; z-index: 20;
+  display: flex; align-items: center; gap: .9rem;
+  padding: 1.25rem 1.5rem;
+}
+/* Same standard as the site nav (styles.css): hover changes colour and nothing
+   with a size in it. .text-link's own hover grows its flex `gap` from .6rem to
+   .95rem — a lovely flourish on a paragraph link, a reflow on a fixed bar — so
+   this pins the gap and lets the underline carry the response instead. */
+.showcase-back {
+  font-size: .72rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase;
+  border-bottom-color: transparent;
+  transition: color .18s ease, border-color .18s ease;
+}
+.showcase-back, .showcase-back:hover, .showcase-back:focus-visible { gap: .6rem; }
+.showcase-back:hover { border-bottom-color: var(--teal); }
+/* The theme toggle is the site's, so it keeps the site's geometry; it just is
+   not in a 3-column header grid here. */
+.showcase-bar .theme-toggle { margin-left: .35rem; }
+
+/* -------------------------------------------------------------- caption */
+
+/* Bottom-left, clear of the panel's top-right home (watercolor-panel.css) so
+   the two never argue for the same corner at any width above the phone
+   breakpoint, where the caption steps aside instead. */
+.showcase-caption {
+  position: fixed; z-index: 5; left: 0; bottom: 0;
+  width: min(100% - 3rem, 30rem);
+  margin: 0 1.5rem 1.5rem;
+  color: var(--ink);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--paper) 70%, transparent);
+}
+.showcase-caption h1 {
+  margin: 0;
+  font: 500 clamp(2.6rem, 7vw, 4.2rem)/.9 Georgia, "Times New Roman", serif;
+  letter-spacing: -.055em;
+}
+.showcase-blurb {
+  margin: 1.1rem 0 0;
+  display: flex; flex-wrap: wrap; gap: .55rem; align-items: baseline;
+  color: var(--ink-soft); font-size: clamp(.95rem, 1.5vw, 1.1rem);
+}
+
+.showcase-legend {
+  margin: 1.4rem 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: .45rem .5rem;
+  font-size: .7rem; letter-spacing: .06em;
+}
+.showcase-legend > div {
+  display: flex; align-items: baseline; gap: .45rem;
+  padding: .3rem .6rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--glass); backdrop-filter: blur(14px);
+}
+.showcase-legend dt { font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+.showcase-legend dd { margin: 0; color: var(--ink-soft); }
+.showcase-legend kbd {
+  font: 700 .72rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  padding: .05rem .3rem; border: 1px solid var(--line); border-radius: .25rem;
+}
+
+.showcase-note {
+  margin: 1.1rem 0 0; max-width: 34rem;
+  color: var(--ink-soft); font-size: .74rem; line-height: 1.6;
+}
+.showcase-note a { color: var(--ink); text-underline-offset: .25em; }
+
+/* ----------------------------------------------------------- narrow/short
+
+   Two independent squeezes, because they fail differently. A phone is narrow:
+   the caption and the 300px drawer would overlap, so the caption loses its
+   legend and its note and keeps only the name and the owner's line. A laptop in
+   a short window is not narrow but has no vertical room for both, and the panel
+   already caps its own drawer at 82vh. */
+@media (max-width: 700px) {
+  .showcase-bar { padding: .9rem 1rem; }
+  .showcase-caption { width: min(100% - 2rem, 30rem); margin: 0 1rem 1rem; }
+  .showcase-legend, .showcase-note { display: none; }
+}
+@media (max-height: 560px) {
+  .showcase-legend, .showcase-note { display: none; }
+  .showcase-caption h1 { font-size: clamp(2rem, 6vw, 2.8rem); }
+}
+
+/* An exhibit whose subject is motion still answers the request for less of it:
+   the sim's own reduced-motion path (html.wc-reduced / the media query, see
+   watercolor/main.js) already calms the wash. This only stops the chrome from
+   animating. */
+@media (prefers-reduced-motion: reduce) {
+  .showcase-bar *, .showcase-caption * { transition-duration: .01ms !important; }
+}

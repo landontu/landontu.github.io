@@ -1,0 +1,434 @@
+:root {
+  color-scheme: light dark;
+  --paper: #e9e4cf;
+  --paper-raised: #f3efdf;
+  --ink: #1d3a42;
+  --ink-soft: #46636a;
+  --teal: #2f5c63;
+  --celadon: #77928a;
+  --gold: #d9b96c;
+  --line: color-mix(in srgb, var(--ink) 18%, transparent);
+  --glass: color-mix(in srgb, var(--paper) 76%, transparent);
+  --shadow: 0 20px 60px color-mix(in srgb, var(--ink) 12%, transparent);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-soft: cubic-bezier(.22, .61, .36, 1);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --paper: #0d2026;
+  --paper-raised: #142c32;
+  --ink: #e9e4cf;
+  --ink-soft: #a9bbb5;
+  --teal: #78a7a8;
+  --celadon: #91aaa0;
+  --gold: #d9b96c;
+  --line: color-mix(in srgb, var(--ink) 16%, transparent);
+  --glass: color-mix(in srgb, var(--paper) 72%, transparent);
+  --shadow: 0 24px 70px rgba(0, 0, 0, .34);
+}
+
+/* ---------------------------------------------------------------- descent
+   `--sp` is scroll progress through the FIRST viewport of the one-page
+   journey, 0 at the top of the hero and 1 once the about sheet has taken the
+   screen. It is the single driver for every continuous scroll effect, written
+   two ways that must agree:
+
+     - native  CSS scroll-driven animation on :root (see @supports below).
+                No scroll listener exists at all; the browser owns the value.
+     - fallback site.js writes the same number from a passive, rAF-coalesced
+                scroll handler when animation-timeline is unsupported.
+
+   Per-property easing is expressed as pure calc() shaping of that one linear
+   driver, so both paths produce identical curves and there is no second set of
+   keyframes to drift. --sp-in leaves slowly then accelerates (the hero holds,
+   then goes); --sp-out moves immediately then settles; --sp-smooth is a
+   smoothstep for things that should have no visible start or stop. */
+@property --sp {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+:root {
+  --sp-in: calc(var(--sp) * var(--sp));
+  --sp-out: calc(var(--sp) * (2 - var(--sp)));
+  --sp-smooth: calc(var(--sp) * var(--sp) * (3 - 2 * var(--sp)));
+}
+
+@supports (animation-timeline: scroll()) {
+  html.wc-native-timeline {
+    animation: wc-descent linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100vh;
+  }
+  @keyframes wc-descent { from { --sp: 0; } to { --sp: 1; } }
+}
+
+* { box-sizing: border-box; }
+html { min-height: 100%; background: var(--paper); scroll-behavior: smooth; }
+body { min-height: 100vh; margin: 0; background: var(--paper); color: var(--ink); }
+a { color: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.skip-link {
+  position: fixed; top: .75rem; left: .75rem; z-index: 100;
+  padding: .7rem 1rem; border-radius: 999px; background: var(--ink); color: var(--paper);
+  text-decoration: none; transform: translateY(-180%); transition: transform .2s var(--ease-out);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  position: relative; z-index: 20; width: min(100% - 2rem, 84rem); height: 6.25rem; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem;
+}
+.home-page .site-header { position: fixed; inset: 0 0 auto; }
+.wordmark {
+  justify-self: start; display: grid; place-items: center; width: 2.55rem; height: 2.55rem;
+  border: 1px solid var(--line); border-radius: 50%; background: var(--glass); backdrop-filter: blur(16px);
+  font: 650 .72rem/1 Georgia, serif; letter-spacing: -.07em; text-decoration: none;
+  transition: color .18s ease, border-color .22s ease, rotate .6s var(--ease-out), scale .35s var(--ease-out), background-color .25s ease;
+}
+.wordmark:hover { color: var(--gold); border-color: var(--gold); rotate: 12deg; scale: 1.08; }
+.wordmark:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; rotate: -8deg; scale: 1.08; }
+
+.site-nav {
+  --nav-pad: .28rem; position: relative; display: flex; gap: .1rem; padding: var(--nav-pad);
+  border: 1px solid var(--line); border-radius: 999px; background: var(--glass); backdrop-filter: blur(18px);
+  box-shadow: 0 5px 20px color-mix(in srgb, var(--ink) 6%, transparent);
+}
+/* NOTHING here may change on :hover except colour. A nav item is a fixed box:
+   its rect at rest and its rect under the pointer are the same rect, to the
+   pixel. Two properties used to break that and both are gone (2026-08-12):
+
+     letter-spacing .025em -> .04em   a genuine reflow. The hovered link grew a
+       couple of pixels wider and shoved its neighbours sideways — pointing at
+       "About" moved "Portfolio", which is the shift you can feel. It also lied
+       to the pill: site.js measures link.offsetWidth synchronously in
+       `pointerenter`, i.e. BEFORE the .32s letter-spacing transition has run, so
+       the highlight was sized to a width the link no longer had by the time it
+       arrived.
+     transform: translateY(-1px)      no reflow, but it moves the item's own box
+       by a pixel, which is exactly the complaint.
+
+   The hover response did not need either: .nav-highlight already slides a pill
+   under the pointer (translate + width, compositor-only, behind z-index 0) and
+   the colour lift to --ink is instant. `transition` therefore no longer names a
+   layout property, so there is no way to animate one back in by accident.
+   Same rule applies to the showcase bar (showcase.css). */
+.site-nav a {
+  position: relative; z-index: 1; padding: .62rem .95rem; border-radius: 999px;
+  color: var(--ink-soft); font-size: .78rem; font-weight: 650; letter-spacing: .025em; text-decoration: none;
+  transition: color .16s ease;
+}
+.site-nav a:hover, .site-nav a:focus-visible, .site-nav a[aria-current="page"], .site-nav a.nav-spy-active { color: var(--ink); }
+/* While the reader is down in the about section the emphasis moves with the
+   pill; hover/focus still win so the nav never looks unresponsive. */
+.site-nav:has(.nav-spy-active) a[aria-current="page"]:not(:hover):not(:focus-visible):not(.nav-spy-active) { color: var(--ink-soft); }
+.site-nav a:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--gold); }
+.nav-highlight {
+  position: absolute; z-index: 0; top: var(--nav-pad); bottom: var(--nav-pad); left: 0;
+  width: var(--nav-w, 0); translate: var(--nav-x, 0) 0; opacity: 0; border-radius: 999px;
+  background: color-mix(in srgb, var(--paper-raised) 88%, transparent);
+  box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 12%, transparent);
+  transition: translate .42s var(--ease-out), width .36s var(--ease-soft), opacity .12s ease, background-color .25s ease;
+  will-change: translate, width;
+}
+.site-nav.nav-immediate .nav-highlight { transition-duration: 0s; }
+
+.theme-toggle {
+  justify-self: end; position: relative; width: 2.55rem; height: 2.55rem; padding: 0;
+  border: 1px solid var(--line); border-radius: 50%; background: var(--glass); color: var(--ink); backdrop-filter: blur(16px); cursor: pointer;
+  transition: background-color .2s ease, border-color .22s ease, box-shadow .3s var(--ease-out), transform .3s var(--ease-out);
+}
+.theme-toggle:hover { border-color: var(--gold); transform: rotate(8deg) scale(1.06); box-shadow: 0 7px 20px color-mix(in srgb, var(--ink) 12%, transparent); }
+.theme-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.theme-toggle svg { position: absolute; inset: .64rem; width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: opacity .2s ease, transform .5s var(--ease-out); }
+.theme-toggle .moon { opacity: 0; transform: rotate(-70deg) scale(.45); fill: currentColor; stroke: none; }
+[data-theme="dark"] .theme-toggle .sun { opacity: 0; transform: rotate(80deg) scale(.45); }
+[data-theme="dark"] .theme-toggle .moon { opacity: 1; transform: rotate(0) scale(1); }
+
+.watercolor, #wc-canvas, .watercolor-shade, .watercolor-veil { position: fixed; inset: 0; width: 100%; height: 100%; }
+.watercolor { z-index: 0; overflow: hidden; background: #e9e4cf; }
+#wc-canvas { display: block; pointer-events: none; background: #e9e4cf; }
+.watercolor-shade { pointer-events: none; background: transparent; transition: background-color .7s ease; }
+[data-theme="dark"] .watercolor-shade { background: rgba(5, 24, 29, .68); }
+
+/* The descent's backdrop move: the page's own paper reclaims the wash as you
+   go down, so the sim keeps running (and keeps being visible) while the about
+   text sits on something quiet. Opacity on a fixed solid layer — no filter, no
+   blur, nothing that would repaint the canvas region every frame. */
+.watercolor-veil { z-index: 1; pointer-events: none; background: var(--paper); opacity: calc(var(--sp-smooth) * .46); }
+
+/* The home page scrolls now. (watercolor.css used to force `overflow: hidden`
+   and a 100% body height from the prototype shell; both are gone from the
+   site's copy — see the comment there.) */
+.home-page { background: var(--paper); }
+.home-main {
+  position: relative; z-index: 2; min-height: 100svh; display: flex; align-items: center;
+  padding: 7rem max(1.5rem, calc((100vw - 84rem) / 2)); pointer-events: none;
+}
+.hero {
+  max-width: 49rem; pointer-events: auto;
+  /* Parallax with restraint: the name LAGS the scroll by 22vh over the first
+     viewport (it rises at ~0.78x the page's speed), so it seems to stay with
+     the wash while the document moves past it — rather than being flung. Lag
+     is linear, because a constant relative speed is what reads as depth.
+     The fade is quad-in on the same driver: it holds at full strength through
+     the first fifth, then dissolves, finishing at --sp 0.62 — while the name
+     is still on screen. The hero recedes INTO the wash; it does not merely
+     scroll off the top. Two properties, two curves, one driver. */
+  transform: translate3d(0, calc(var(--sp) * 22vh), 0);
+  opacity: clamp(0, calc(1 - var(--sp-in) * 2.6), 1);
+}
+/* An opacity-0 element still swallows clicks. Once ANY sheet below the hero
+   owns the viewport the hero must stop being a target, whatever the geometry
+   does. The class was `at-about` when about was the only sheet; with portfolio
+   below it, keying on "about is in view" would hand the invisible hero its
+   clicks back the moment the reader scrolled past about. */
+.wc-past-hero .hero { pointer-events: none; }
+.hero-rise { animation: rise .75s var(--ease-out) both; }
+html.wc-deep-load .hero-rise { animation: none; }
+
+.scroll-cue {
+  /* bottom clears the watercolor panel's toggle, which the home page parks at
+     bottom-left (1rem + 42px). At 3.2rem the label sat on top of it. */
+  position: absolute; z-index: 3; left: max(1.5rem, calc((100vw - 84rem) / 2)); bottom: 5rem;
+  display: flex; gap: .8rem; align-items: center; pointer-events: auto;
+  color: var(--ink-soft); font-size: .64rem; font-weight: 650; letter-spacing: .18em; text-transform: uppercase;
+  text-decoration: none; opacity: clamp(0, calc(1 - var(--sp) * 2.6), 1);
+  transition: color .2s ease;
+}
+.scroll-cue:hover { color: var(--ink); }
+.scroll-cue:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: .3rem; }
+.scroll-cue-rail { position: relative; display: block; width: 1px; height: 2.6rem; background: color-mix(in srgb, var(--ink) 22%, transparent); overflow: hidden; }
+.scroll-cue-rail i { position: absolute; top: 0; left: -1px; width: 3px; height: .8rem; border-radius: 999px; background: var(--teal); animation: cue-fall 2.6s var(--ease-soft) infinite; }
+@keyframes cue-fall {
+  0% { transform: translateY(-.9rem); opacity: 0; }
+  22% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateY(2.6rem); opacity: 0; }
+}
+.eyebrow { margin: 0 0 1rem; color: var(--teal); font-size: .7rem; font-weight: 750; letter-spacing: .19em; text-transform: uppercase; }
+.hero h1 { margin: 0; font: 500 clamp(4rem, 11vw, 9rem)/.85 Georgia, "Times New Roman", serif; letter-spacing: -.065em; }
+.hero h1 { color: var(--ink); text-shadow: 0 1px 0 color-mix(in srgb, var(--paper) 70%, transparent); }
+.hero .eyebrow { color: var(--teal); }
+.hero .hero-tagline { margin: 1.8rem 0 0; display: flex; flex-wrap: wrap; gap: .55rem; align-items: baseline; color: var(--ink-soft); font-size: clamp(1rem, 1.8vw, 1.35rem); }
+.placeholder-label { display: inline-block; padding: .3rem .48rem; border: 1px solid currentColor; border-radius: .25rem; color: var(--teal); font: 700 .58rem/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .07em; }
+.hero-actions { margin-top: 2.4rem; }
+.text-link { display: inline-flex; gap: .6rem; align-items: center; padding-bottom: .3rem; border-bottom: 1px solid var(--ink); text-decoration: none; font-size: .85rem; font-weight: 650; transition: color .18s ease, border-color .18s ease, gap .35s var(--ease-out); }
+.text-link:hover { color: var(--teal); border-color: var(--teal); gap: .95rem; }
+.text-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 5px; }
+/* The hint is about the hero's pointer play; it has no business following you
+   into the about section, so it leaves in the first third of the descent. */
+.interaction-hint { position: fixed; z-index: 2; right: 2rem; bottom: 1.5rem; margin: 0; color: var(--ink-soft); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; writing-mode: vertical-rl; opacity: clamp(0, calc(1 - var(--sp) * 3.2), 1); }
+/* ------------------------------------------------------ ?tune panel only
+
+   index.html no longer ships a panel: no panel.js, no mount, no
+   watercolor-panel.css. These four rules therefore match nothing on a normal
+   visit — they are the home page's placement for the panel that `?tune`
+   injects, and they are KEPT rather than deleted because the escape hatch puts
+   the real panel on the real page, at the real bottom-left corner, where the
+   bug below lives. Deleting them would move the tuning panel to its default
+   top-right, on top of the fixed site header and the theme toggle. */
+.home-page .wc-panel { top: auto; right: auto; bottom: 1rem; left: 1rem; align-items: flex-start; }
+/* The panel is a fixed flex column 300px wide EVEN WHEN CLOSED — the collapsed
+   drawer inside it is already `pointer-events: none` (watercolor-panel.css), but
+   the container is not, and it is `position: fixed; z-index: 10` parked in the
+   home page's bottom-left corner. At the bottom of the document that is exactly
+   where the footer byline is, so the byline's clicks went to an invisible div:
+   `document.elementFromPoint` over the link returned `div.wc-panel`, in the
+   canonical site as well as here. Only the panel's own controls are targets.
+   The split makes this unreachable for a reader — but it must survive for the
+   owner's own ?tune pass, which is the one session where a stranded footer
+   would be blamed on the footer. */
+.home-page .wc-panel { pointer-events: none; }
+.home-page .wc-toggle { pointer-events: auto; opacity: .55; scale: .82; }
+.home-page .wc-toggle:hover, .home-page .wc-toggle:focus-visible, .home-page .wc-panel.open .wc-toggle { opacity: 1; scale: 1; }
+.home-page .wc-note { top: auto; right: auto; bottom: 1rem; left: 1rem; }
+@keyframes rise { from { opacity: 0; transform: translateY(1.4rem); } to { opacity: 1; transform: none; } }
+
+/* .inner-page / .page-shell are the redirect stubs' shell (about.html,
+   portfolio.html). Nothing else uses them: both real pages are movements of
+   index.html now. */
+.inner-page { background-image: radial-gradient(circle at 90% 5%, color-mix(in srgb, var(--gold) 13%, transparent), transparent 30rem), linear-gradient(135deg, transparent 0 49.8%, color-mix(in srgb, var(--teal) 5%, transparent) 50% 50.2%, transparent 50.4%); }
+.page-shell { width: min(100% - 3rem, 76rem); min-height: calc(100vh - 12rem); margin: 3.5rem auto 5rem; }
+
+.portfolio-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; padding: 3rem 0 4rem; }
+.project-card { grid-column: span 6; }
+.project-visual { display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 1rem; background: var(--paper-raised); }
+.project-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out), filter .35s ease; }
+.project-visual:hover img { transform: scale(1.025); }
+.project-meta { padding: 1rem .2rem 2rem; }
+.project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
+.project-meta h3 a { text-decoration: none; }
+.project-meta p { max-width: 38rem; color: var(--ink-soft); line-height: 1.65; }
+.project-tags { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0; list-style: none; }
+.project-tags li { padding: .25rem .55rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font-size: .68rem; }
+.empty-state { grid-column: 1 / -1; min-height: 22rem; display: grid; place-content: center; justify-items: center; padding: 3rem; border: 1px dashed var(--line); border-radius: 1.25rem; text-align: center; }
+/* The empty room with an exhibit already in it: same panel, one cell wide, and
+   aligned to the card's visual rather than to the whole card, so the two tops
+   agree and the dashed box does not run down past the card's meta block. */
+.empty-state-beside { grid-column: span 6; min-height: 0; aspect-ratio: 4 / 3; align-self: start; padding: 2rem; }
+/* The visual half of a card whose cover image the owner has not chosen yet.
+   Same dashed-placeholder language as .portrait-placeholder, same 4/3 box as a
+   real .project-visual, so the grid does not reflow when the <img> lands. */
+.project-visual-empty { display: grid; place-content: center; justify-items: center; gap: .5rem; padding: 2rem; border: 1px dashed var(--line); background: color-mix(in srgb, var(--paper-raised) 55%, transparent); color: var(--ink-soft); text-align: center; text-decoration: none; transition: border-color .22s ease, background-color .25s ease; }
+.project-visual-empty strong { font: 400 .8rem/1.4 inherit; }
+.project-visual-empty:hover { border-color: var(--teal); background: color-mix(in srgb, var(--paper-raised) 80%, transparent); }
+.project-visual-empty:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+/* h3, not h2: on the one-pager the section's own heading is the <h2>. */
+.empty-state h3 { margin: 1.4rem 0 .35rem; font: 500 clamp(1.7rem, 4vw, 2.4rem)/1.2 Georgia, serif; }
+.empty-state p { margin: 0; color: var(--ink-soft); }
+/* …and it stops shouting. At display size the placeholder's "more exhibits are
+   being prepared" was set larger than the title of the exhibit standing next to
+   it, so the empty half of the room read as the headline and the actual work as
+   a caption. It is a note now, not a movement. */
+.empty-state-beside h3 { font-size: clamp(1.1rem, 1.6vw, 1.35rem); margin: 1rem 0 .3rem; }
+.empty-state-beside p { font-size: .82rem; }
+.empty-state-beside .empty-mark { height: 1.6rem; }
+.empty-state-beside .empty-mark i { height: .8rem; }
+.empty-state-beside .empty-mark i:nth-child(2) { height: 1.4rem; }
+.empty-state-beside .empty-mark i:nth-child(3) { height: 1rem; }
+.empty-mark { display: flex; gap: .4rem; align-items: end; height: 2.6rem; }
+.empty-mark i { display: block; width: .45rem; height: 1.2rem; border-radius: 999px; background: var(--teal); transform: rotate(25deg); opacity: .65; }
+.empty-mark i:nth-child(2) { height: 2.2rem; background: var(--gold); transform: rotate(12deg); }
+.empty-mark i:nth-child(3) { height: 1.6rem; background: var(--celadon); transform: rotate(-8deg); }
+
+/* ------------------------------------------------------------ about sheet
+   Legibility is STRUCTURAL, not animated: the sheet is a real scrolling
+   surface whose paper thickens over its first 16rem, so the wash settles
+   behind the text purely from layout. The scroll-driven veil above is extra
+   atmosphere on top of that — if every animation here were switched off (JS
+   dead, reduced motion, an engine with no scroll timelines), the about text
+   still reads on quiet paper. */
+.about-shell {
+  position: relative; z-index: 2;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--paper) 0%, transparent) 0,
+    color-mix(in srgb, var(--paper) 62%, transparent) 7rem,
+    color-mix(in srgb, var(--paper) 89%, transparent) 16rem);
+}
+.about-inner { width: min(100% - 3rem, 76rem); margin: 0 auto; padding: 4rem 0 0; }
+
+/* The about section opens on its own display word rather than a second copy
+   of the name — the 9rem indent lines it up with the 01-04 number rail. */
+.about-intro { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 2rem; padding: 4.5rem 0 5rem; border-bottom: 1px solid var(--line); }
+/* One display word per movement, at one size. About indents its word to the
+   9rem number rail; Portfolio gets there by sitting in the rail's grid column
+   instead, with its eyebrow in the rail itself. */
+.about-display, .portfolio-display { margin: 0; font: 500 clamp(4.4rem, 10vw, 8.5rem)/.85 Georgia, "Times New Roman", serif; letter-spacing: -.065em; }
+.about-display { margin-left: 9rem; }
+.portrait-placeholder { width: min(25vw, 15rem); aspect-ratio: 3 / 4; display: grid; place-content: center; gap: .5rem; padding: 1rem; border: 1px dashed var(--line); border-radius: 50% 50% 1rem 1rem; color: var(--ink-soft); text-align: center; }
+.portrait-placeholder span, .owner-copy::before { font: 700 .56rem/1.3 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .07em; }
+.portrait-placeholder strong { font: 400 .8rem/1.4 inherit; }
+.about-content { display: grid; gap: 0; }
+.about-lede, .about-contact { display: grid; grid-template-columns: 9rem 1fr; padding: 5rem 0; border-bottom: 1px solid var(--line); }
+.about-columns { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
+.about-columns article { padding: 4rem 4rem 4rem 9rem; }
+.about-columns article + article { border-left: 1px solid var(--line); }
+.section-number { margin: .25rem 0; color: var(--gold); font: 600 .7rem/1 ui-monospace, monospace; }
+/* Grid items default to min-width:auto, and the placeholder headings are one
+   unbreakable 22-character token at clamp(...,4vw,...) — which is why the old
+   about page pushed 8px of horizontal scroll at 1280w. Harmless on its own
+   page; on the merged page it puts a sideways wobble into the descent. */
+.about-lede > div, .about-contact > div, .about-columns article { min-width: 0; }
+.about-content h3 { margin: 0 0 1.2rem; font: 500 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, serif; overflow-wrap: anywhere; }
+.owner-copy { min-height: 6rem; max-width: 38rem; margin: 0; padding: 1.4rem; border-left: 2px solid var(--celadon); background: color-mix(in srgb, var(--paper-raised) 65%, transparent); color: var(--ink-soft); font-size: 1rem; line-height: 1.7; }
+.owner-copy::before { content: "OWNER-TEXT-PLACEHOLDER"; display: block; margin-bottom: .6rem; color: var(--teal); }
+/* -------------------------------------------------------- portfolio sheet
+   The third movement, and the bottom of the descent. The about sheet's paper
+   gradient stops climbing at 16rem and holds 89% for the rest of its height,
+   so this sheet is that same flat 89% — a different value here would draw a
+   visible horizontal seam across the wash at the section junction. It is a
+   sheet rather than a continuation of .about-shell because the scroll spy
+   needs two separate sections to observe, and because the nav's Portfolio
+   anchor has to land on a real element. */
+.portfolio-shell {
+  position: relative; z-index: 2;
+  background: color-mix(in srgb, var(--paper) 89%, transparent);
+}
+.portfolio-inner { width: min(100% - 3rem, 76rem); margin: 0 auto; }
+/* Eyebrow in the 9rem rail, display word beside it — the same left gutter the
+   01–04 numbers and the about word already use, so the descent keeps one
+   vertical alignment from the hero to the footer. */
+/* 7rem of lead-in, not 5: the site header is fixed at 6.25rem on this page, so
+   anything less and an anchor landing that puts #portfolio's top at y=0 tucks
+   the display word under the nav pill. About clears it by accident (its own
+   intro padding puts the word at ~136px); this makes it deliberate. */
+.portfolio-intro { display: grid; grid-template-columns: 9rem 1fr; align-items: end; padding: 7rem 0 3.75rem; border-bottom: 1px solid var(--line); }
+.portfolio-intro .eyebrow { margin: 0 0 .45rem; }
+
+.site-footer { width: min(100% - 3rem, 76rem); margin: 0 auto; padding: 2rem 0 3rem; display: flex; gap: .7rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.site-footer a { color: var(--ink); text-decoration: none; }
+/* …and it should not LOOK like it is fighting the panel either: the toggle sits
+   at bottom-left 1rem, so the byline gets enough floor under it to clear the
+   toggle's 42px instead of sitting shoulder to shoulder with it. */
+.home-page .site-footer { padding-bottom: 5.5rem; }
+
+/* --------------------------------------------------------- entrances
+   Staggered surfacing, driven by IntersectionObserver rather than the scroll
+   timeline: an entrance is a one-shot event at a threshold, not a function of
+   scroll position, and a transition is interruptible by construction — reverse
+   direction mid-flight and it retargets from wherever it is.
+
+   Gated on .js-reveal, which site.js only sets once it has an
+   IntersectionObserver in hand. Without it these rules never apply and the
+   content is simply there: no scenario hides the owner's page behind a script. */
+.js-reveal .reveal {
+  --reveal-delay: calc(var(--i, 0) * 85ms);
+  opacity: 0;
+  transform: translate3d(0, 1.5rem, 0);
+  transition:
+    opacity .62s var(--ease-soft) var(--reveal-delay),
+    transform .95s var(--ease-out) var(--reveal-delay);
+}
+.js-reveal .reveal.is-in { opacity: 1; transform: none; }
+
+@media (max-width: 700px) {
+  .site-header { width: min(100% - 1rem, 84rem); height: 5rem; gap: .45rem; }
+  .site-nav a { padding: .55rem .62rem; font-size: .7rem; }
+  .wordmark, .theme-toggle { width: 2.25rem; height: 2.25rem; }
+  .theme-toggle svg { inset: .53rem; }
+  .home-main { align-items: flex-end; padding: 6rem 1.25rem 18vh; }
+  .hero h1 { font-size: clamp(3.8rem, 20vw, 6.5rem); }
+  .scroll-cue { left: 1.25rem; bottom: 4.5rem; }
+  .about-inner { width: min(100% - 2rem, 76rem); padding-top: 2rem; }
+  .interaction-hint { display: none; }
+  .page-shell { width: min(100% - 2rem, 76rem); margin-top: 1rem; }
+  .portfolio-inner { width: min(100% - 2rem, 76rem); }
+  .portfolio-intro { grid-template-columns: 1fr; padding: 3rem 0 2.5rem; }
+  .about-intro { grid-template-columns: 1fr; padding: 2.5rem 0 2.5rem; }
+  .about-display, .portfolio-display { font-size: clamp(3.6rem, 18vw, 6rem); }
+  .about-display { margin-left: 0; }
+  .portfolio-intro .eyebrow { margin-bottom: 1rem; }
+  .portrait-placeholder { justify-self: start; width: 9rem; margin: 2.5rem 0 0; }
+  .project-card { grid-column: 1 / -1; }
+  .empty-state { min-height: 18rem; padding: 2rem 1rem; }
+  .empty-state-beside { grid-column: 1 / -1; aspect-ratio: auto; min-height: 14rem; }
+  .about-lede, .about-contact { grid-template-columns: 2.5rem 1fr; padding: 3rem 0; }
+  .about-columns { grid-template-columns: 1fr; }
+  .about-columns article { padding: 3rem 0; }
+  .about-columns article + article { border-left: 0; border-top: 1px solid var(--line); }
+  .site-footer { width: min(100% - 2rem, 76rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+
+  /* Static sections, no entrances, no parallax. site.js also refuses to attach
+     the scroll driver here, so --sp stays 0 — which is why every value below
+     is written out rather than left to the calc()s.
+     The veil is the one thing that stays ON: it is legibility, not motion, and
+     a reader who has asked for less movement gets a permanently calmer wash
+     rather than a wash that clears only if they scroll. */
+  html.wc-native-timeline { animation: none; }
+  .watercolor-veil { opacity: .3; }
+  .hero { transform: none; opacity: 1; }
+  .hero-rise { animation: none; }
+  .scroll-cue { opacity: 1; }
+  .scroll-cue-rail i { animation: none; top: .9rem; opacity: .8; }
+  .interaction-hint { opacity: 1; }
+  .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+}

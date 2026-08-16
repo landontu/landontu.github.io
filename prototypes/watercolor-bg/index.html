@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watercolor background — prototype</title>
+<!-- The prototype is a SHELL, not a fork. Chrome-free page, panel open by
+     default, and it loads the SITE's watercolor module verbatim. There is no
+     copy of the simulation or of the defaults under this directory any more:
+     that duplication is what let the site ship a pre-calibration build while
+     this page held the owner's calibrated one. The site is canonical; this
+     page just gives it a bare stage. -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<img id="wc-art-field" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" hidden aria-hidden="true">
+<img id="wc-art-fallback" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" hidden aria-hidden="true">
+
+<canvas id="wc-canvas" aria-hidden="true"></canvas>
+
+<main class="hero-wrap">
+  <div class="hero" id="hero">
+    <h1>Landon Tu</h1>
+    <p>personal site · work in progress</p>
+  </div>
+</main>
+
+<div id="wc-panel-mount"></div>
+
+<!-- Classic scripts in dependency order: file:// compatible, no modules, no
+     fetch. Same five files the site loads, from the site's directory. -->
+<script src="../../watercolor/settings.js"></script>
+<script src="../../watercolor/art-data.js"></script>
+<script src="../../watercolor/shaders.js"></script>
+<script src="../../watercolor/sim.js"></script>
+<script src="../../watercolor/panel.js"></script>
+<script src="../../watercolor/main.js"></script>
+</body>
+</html>
