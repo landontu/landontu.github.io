@@ -113,8 +113,8 @@
     <!-- Third movement. Same sheet language as about, one level further down
          the descent: the about sheet's paper gradient has already reached its
          89% plateau by here, so this section holds exactly that value and the
-         junction shows no seam. The card system below is the portfolio page's,
-         carried over unchanged. -->
+         junction shows no seam. The card system below stays within the
+         portfolio page's existing visual language. -->
     <section class="portfolio-shell" id="portfolio" aria-labelledby="portfolio-heading">
      <div class="portfolio-inner">
       <header class="portfolio-intro">
@@ -123,64 +123,50 @@
       </header>
 
       <section class="portfolio-grid" aria-label="Portfolio exhibits">
-        <!--
-          PORTFOLIO CARD CONTRACT
-          Add one <article class="project-card"> per exhibit with:
-          1. A linked .project-visual containing an image (meaningful alt text).
-          2. A .project-meta block with a heading/link, short owner-written summary,
-             and optional .project-tags list.
-          3. Keep the whole article self-contained; do not nest interactive controls.
-          4. Heading level is h3: on the one-pager the section's own <h2> is
-             "Portfolio", so a card heading sits one level under it.
-          5. Add class="reveal" and style="--i:N" to opt a card into the same
-             staggered entrance the about section uses. N is its position in the
-             grid; the delay is --i * 85ms.
-
-          <article class="project-card reveal" style="--i:0">
-            <a class="project-visual" href="PROJECT_URL"><img src="IMAGE" alt="OWNER-WRITTEN ALT"></a>
-            <div class="project-meta">
-              <h3><a href="PROJECT_URL">OWNER-WRITTEN TITLE</a></h3>
-              <p>OWNER-WRITTEN SUMMARY</p>
-              <ul class="project-tags" aria-label="Project disciplines"><li>TAG</li></ul>
-            </div>
-          </article>
-        -->
-
-        <!-- First exhibit: the watercolor sim this page's own background runs
-             on, given its own room at watercolor.html. Built to the contract
-             above with ONE departure, and it is deliberate: .project-visual is
-             specified as a linked image, and there is no image to put in it
-             that the owner has chosen. A screenshot picked by an agent would be
-             the cover of his portfolio's first piece, so the visual is a
-             placeholder zone in the same language as the hero and the portrait,
-             and every word a reader would read — title line, summary, tags, alt
-             text — is an OWNER-TEXT-PLACEHOLDER. Swapping the placeholder for
-             `<img src="..." alt="...">` is the only change needed once he picks
-             a still. -->
         <article class="project-card reveal" style="--i:0">
-          <a class="project-visual project-visual-empty" href="watercolor.html" aria-labelledby="exhibit-watercolor-title">
-            <span class="placeholder-label">OWNER-TEXT-PLACEHOLDER</span>
-            <strong>[cover still here]</strong>
+          <a class="project-visual" href="https://github.com/landontu/WebHome">
+            <img src="assets/projects/webhome.webp" width="1200" height="750" loading="lazy" decoding="async" alt="WebHome new-tab dashboard with search, widgets, and a landscape wallpaper">
           </a>
           <div class="project-meta">
-            <h3 id="exhibit-watercolor-title"><a href="watercolor.html">Watercolor</a></h3>
-            <!-- .owner-copy stamps the OWNER-TEXT-PLACEHOLDER label itself
-                 (styles.css:289), exactly as the four about blocks do. -->
-            <p class="owner-copy">[your words here]</p>
-            <ul class="project-tags" aria-label="Project disciplines">
-              <li>OWNER-TEXT-PLACEHOLDER</li>
-            </ul>
+            <h3><a href="https://github.com/landontu/WebHome">WebHome</a></h3>
+            <!-- DRAFT — owner to rewrite. Kept verbatim from the showcase brief. -->
+            <p><span class="draft-note">Draft copy</span> WebHome is a Chromium MV3 new-tab extension that turns a blank tab into a configurable dashboard with search, widgets, wallpaper, and a keyboard-first slash-command palette. Its React/TypeScript architecture keeps layouts and settings in extension storage, while AI commands use short-lived, nonce-keyed <code>chrome.storage.session</code> records so prompts do not travel in provider URLs.</p>
           </div>
         </article>
 
-        <!-- Kept, and now the second cell rather than the whole grid: the room
-             has opened, it is just not full. It drops out the moment a second
-             card lands. -->
-        <div class="empty-state empty-state-beside">
-          <span class="empty-mark reveal" style="--i:1" aria-hidden="true"><i></i><i></i><i></i></span>
-          <h3 class="reveal" style="--i:2">More exhibits are being prepared.</h3>
-          <p class="reveal" style="--i:3">This room will fill in.</p>
-        </div>
+        <article class="project-card reveal" style="--i:1">
+          <div class="project-visual">
+            <img src="assets/projects/desmos-game.webp" width="1200" height="750" loading="lazy" decoding="async" alt="A planted flag on the gold goal in level five of the Desmos puzzle platformer">
+          </div>
+          <div class="project-meta">
+            <h3>desmos-game</h3>
+            <!-- DRAFT — owner to rewrite. Kept verbatim from the showcase brief. -->
+            <p><span class="draft-note">Draft copy</span> ProjectKindaWorking is a five-level 3D puzzle platformer built entirely inside a Desmos 2D graph, including title/select/win states, keyboard movement, camera turns, one-way drops, and stateful doors. A Python generator emits the 310-item graph while offline validators cross-check the layered heightfield, movement, painter ordering, shading, camera staging, and solvability.</p>
+            <p class="project-link-note">A public link for the current build is not available yet.</p>
+          </div>
+        </article>
+
+        <article class="project-card reveal" style="--i:2">
+          <a class="project-visual" href="https://github.com/landontu/recall-AID">
+            <img src="assets/projects/recall-aid.webp" width="1200" height="750" loading="lazy" decoding="async" alt="recall-AID review screen with a problem, answer choices, and interval controls">
+          </a>
+          <div class="project-meta">
+            <h3><a href="https://github.com/landontu/recall-AID">recall-AID</a></h3>
+            <!-- DRAFT — owner to rewrite. Kept verbatim from the showcase brief. -->
+            <p><span class="draft-note">Draft copy</span> recall-AID is a course-agnostic spaced-repetition workspace over a Markdown knowledge graph, with an FSRS-backed daily queue, map-first library, and keyboard-driven problem review. The current self-report MVP combines a Python/FastAPI core, SQLite review ledger, React/TypeScript frontend, and Tauri desktop shell while keeping course notes and card content human-readable and git-diffable.</p>
+          </div>
+        </article>
+
+        <article class="project-card reveal" style="--i:3">
+          <div class="project-visual">
+            <img src="assets/projects/personal-website.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Landon Tu personal website over its interactive watercolor background">
+          </div>
+          <div class="project-meta">
+            <h3>Personal website</h3>
+            <!-- DRAFT — owner to rewrite. This card describes the page hosting the portfolio. -->
+            <p><span class="draft-note">Draft copy</span> This one-page personal site uses an interactive WebGL watercolor simulation as its background and carries that identity through its introduction, about, and portfolio sections. The watercolor has a <a href="watercolor.html">separate exhibit</a> where its composition can be explored directly.</p>
+          </div>
+        </article>
       </section>
 
       <footer class="site-footer"><a href="index.html">Landon Tu</a><span aria-hidden="true">·</span><span>2026</span></footer>

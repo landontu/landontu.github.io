@@ -256,13 +256,16 @@ html.wc-deep-load .hero-rise { animation: none; }
 
 .portfolio-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; padding: 3rem 0 4rem; }
 .project-card { grid-column: span 6; }
-.project-visual { display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 1rem; background: var(--paper-raised); }
+.project-visual { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1rem; background: var(--paper-raised); }
 .project-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out), filter .35s ease; }
-.project-visual:hover img { transform: scale(1.025); }
+a.project-visual:hover img { transform: scale(1.025); }
 .project-meta { padding: 1rem .2rem 2rem; }
 .project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
 .project-meta h3 a { text-decoration: none; }
 .project-meta p { max-width: 38rem; color: var(--ink-soft); line-height: 1.65; }
+.project-meta code { font-size: .88em; overflow-wrap: anywhere; }
+.draft-note { display: inline-block; margin-right: .35rem; color: var(--teal); font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.project-meta .project-link-note { margin-top: -.35rem; font-size: .78rem; }
 .project-tags { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0; list-style: none; }
 .project-tags li { padding: .25rem .55rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font-size: .68rem; }
 .empty-state { grid-column: 1 / -1; min-height: 22rem; display: grid; place-content: center; justify-items: center; padding: 3rem; border: 1px dashed var(--line); border-radius: 1.25rem; text-align: center; }
@@ -396,6 +399,7 @@ html.wc-deep-load .hero-rise { animation: none; }
   .about-inner { width: min(100% - 2rem, 76rem); padding-top: 2rem; }
   .interaction-hint { display: none; }
   .page-shell { width: min(100% - 2rem, 76rem); margin-top: 1rem; }
+  .portfolio-shell { scroll-margin-top: 5rem; }
   .portfolio-inner { width: min(100% - 2rem, 76rem); }
   .portfolio-intro { grid-template-columns: 1fr; padding: 3rem 0 2.5rem; }
   .about-intro { grid-template-columns: 1fr; padding: 2.5rem 0 2.5rem; }
