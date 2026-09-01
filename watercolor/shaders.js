@@ -474,31 +474,50 @@ void main() {
 
   /* Beer-Lambert glazing: glazes mix like real watercolor (teal over gold
      goes deep green, never gray mud). */
-  vec3 dL = texture(uPigment, simUv - vec2(uPigmentTexel.x, 0.0)).rgb;
-  vec3 dR = texture(uPigment, simUv + vec2(uPigmentTexel.x, 0.0)).rgb;
-  vec3 dB = texture(uPigment, simUv - vec2(0.0, uPigmentTexel.y)).rgb;
-  vec3 dT = texture(uPigment, simUv + vec2(0.0, uPigmentTexel.y)).rgb;
-  float amount = dot(d, vec3(1.0));
+  vec3 dLB = texture(uPigment, simUv - uPigmentTexel).rgb;
+  vec3 dLT = texture(uPigment, simUv + vec2(-uPigmentTexel.x, uPigmentTexel.y)).rgb;
+  vec3 dRB = texture(uPigment, simUv + vec2(uPigmentTexel.x, -uPigmentTexel.y)).rgb;
+  vec3 dRT = texture(uPigment, simUv + uPigmentTexel).rgb;
+  vec3 dL = 0.5 * (dLB + dLT);
+  vec3 dR = 0.5 * (dRB + dRT);
+  vec3 dB = 0.5 * (dLB + dRB);
+  vec3 dT = 0.5 * (dLT + dRT);
+  float rawAmount = dot(d, vec3(1.0));
   float amountL = dot(dL, vec3(1.0));
   float amountR = dot(dR, vec3(1.0));
   float amountB = dot(dB, vec3(1.0));
   float amountT = dot(dT, vec3(1.0));
+
+  /* At large backing resolutions a dye texel spans 2-3 screen pixels. Thin
+     paint makes that grid visible when the granulation and rim thresholds
+     amplify tiny concentration steps. Four diagonal taps provide a two-axis
+     filter and the rim gradient at the same sampling cost as the old cross;
+     normal paint remains the original sample. */
+  vec3 thinSmooth = (d * 2.0 + dLB + dLT + dRB + dRT) / 6.0;
+  float thinBlend = 1.0 - smoothstep(0.08, 0.16, rawAmount);
+  float thinDetail = 1.0 - thinBlend;
+  d = mix(d, thinSmooth, thinBlend);
+  float amount = dot(d, vec3(1.0));
   float gradientMagnitude = 0.5 * length(vec2(amountR - amountL, amountT - amountB));
+  gradientMagnitude *= mix(0.65, 1.0, 1.0 - thinBlend);
   float dry = 1.0 - smoothstep(0.12, 0.55, w);
 
   /* Granulation settles pigment into broad paper valleys and the sparse tooth
      pits. It is gated by actual paint and dryness, with enough contrast at
      the default to read as pigment texture rather than screen noise. */
   float painted = smoothstep(0.008, 0.10, amount);
+  painted *= thinDetail;
   float settling = clamp((0.58 - g.r) * 1.25 + g.g * 3.0, -0.55, 2.4);
   d *= max(vec3(0.15), 1.0 + uGranulation * dry * painted * settling);
 
   /* A one-to-two-pixel iso-concentration rim, admitted only where the pigment
      gradient is real. This produces the crisp pooled line of a dried wash
      instead of the former diffuse high-pass darkening. */
-  float rimAA = max(fwidth(amount) * 1.35, 0.0015);
+  float rimMinAA = mix(0.004, 0.0015, 1.0 - thinBlend);
+  float rimAA = max(fwidth(amount) * 1.35, rimMinAA);
   float rim = 1.0 - smoothstep(rimAA, rimAA * 2.2, abs(amount - 0.075));
   rim *= smoothstep(0.0015, 0.012, gradientMagnitude);
+  rim *= thinDetail;
   vec3 pigmentRatio = d / max(dot(d, vec3(1.0)), 0.001);
   d += pigmentRatio * rim * uEdgeDark * dry * 0.16;
   float od = uDensity * (1.0 - 0.55 * mask);
