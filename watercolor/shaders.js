@@ -74,7 +74,8 @@ out vec4 frag;
 uniform sampler2D uVelocity;
 uniform sampler2D uSource;    /* phi^n  — the field before pass 1 */
 uniform sampler2D uForward;   /* phiHat — pass 1's output */
-uniform vec2 uTexel;
+uniform vec2 uTexel;      /* sim texel: converts velocity (cells/s) to UV */
+uniform vec2 uLimTexel;   /* texel of uSource: the limiter's sample stencil */
 uniform float uDt;
 uniform float uWetGate;
 uniform float uStrength;      /* 0 = plain semi-Lagrangian, 1 = full MacCormack */
@@ -94,12 +95,12 @@ void main() {
   vec4 corrected = phiHat + 0.5 * (phi - phiBar) * uStrength;
 
   /* Limiter: clamp to the 2x2 stencil the backtrace sampled. */
-  vec2 g = back / uTexel - 0.5;
-  vec2 base = (floor(g) + 0.5) * uTexel;
+  vec2 g = back / uLimTexel - 0.5;
+  vec2 base = (floor(g) + 0.5) * uLimTexel;
   vec4 t00 = texture(uSource, base);
-  vec4 t10 = texture(uSource, base + vec2(uTexel.x, 0.0));
-  vec4 t01 = texture(uSource, base + vec2(0.0, uTexel.y));
-  vec4 t11 = texture(uSource, base + uTexel);
+  vec4 t10 = texture(uSource, base + vec2(uLimTexel.x, 0.0));
+  vec4 t01 = texture(uSource, base + vec2(0.0, uLimTexel.y));
+  vec4 t11 = texture(uSource, base + uLimTexel);
   vec4 lo = min(min(t00, t10), min(t01, t11));
   vec4 hi = max(max(t00, t10), max(t01, t11));
 

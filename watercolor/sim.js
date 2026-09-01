@@ -953,6 +953,7 @@ const WCSim = (function () {
     gl.uniform1i(p.u.uSource, 1);
     gl.uniform1i(p.u.uForward, 2);
     gl.uniform2f(p.u.uTexel, texelX, texelY);
+    gl.uniform2f(p.u.uLimTexel, 1 / field.read.w, 1 / field.read.h);
     gl.uniform1f(p.u.uDt, dt);
     gl.uniform1f(p.u.uWetGate, wetGate);
     gl.uniform1f(p.u.uStrength, MAC_STRENGTH);
