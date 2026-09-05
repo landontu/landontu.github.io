@@ -487,6 +487,7 @@ void main() {
   float amountR = dot(dR, vec3(1.0));
   float amountB = dot(dB, vec3(1.0));
   float amountT = dot(dT, vec3(1.0));
+  float dry = 1.0 - smoothstep(0.12, 0.55, w);
 
   /* At large backing resolutions a dye texel spans 2-3 screen pixels. Thin
      paint makes that grid visible when the granulation and rim thresholds
@@ -494,19 +495,22 @@ void main() {
      filter and the rim gradient at the same sampling cost as the old cross;
      normal paint remains the original sample. */
   vec3 thinSmooth = (d * 2.0 + dLB + dLT + dRB + dRT) / 6.0;
-  float thinBlend = 1.0 - smoothstep(0.08, 0.16, rawAmount);
-  float thinDetail = 1.0 - thinBlend;
+  float belowFloor = 1.0 - smoothstep(1.00, 1.35, rawAmount);
+  float thinBlend = max(1.0 - smoothstep(0.08, 0.16, rawAmount), dry * belowFloor);
   d = mix(d, thinSmooth, thinBlend);
   float amount = dot(d, vec3(1.0));
+  /* Granulation and pooled edges are character for substantial paint, but at
+     low concentration they amplify the dye grid instead. Fade both effects
+     fully out below the pigment floor so thin washes exit plain and smooth. */
+  float detailStrength = smoothstep(1.00, 1.35, amount);
   float gradientMagnitude = 0.5 * length(vec2(amountR - amountL, amountT - amountB));
   gradientMagnitude *= mix(0.65, 1.0, 1.0 - thinBlend);
-  float dry = 1.0 - smoothstep(0.12, 0.55, w);
 
   /* Granulation settles pigment into broad paper valleys and the sparse tooth
      pits. It is gated by actual paint and dryness, with enough contrast at
      the default to read as pigment texture rather than screen noise. */
   float painted = smoothstep(0.008, 0.10, amount);
-  painted *= thinDetail;
+  painted *= detailStrength;
   float settling = clamp((0.58 - g.r) * 1.25 + g.g * 3.0, -0.55, 2.4);
   d *= max(vec3(0.15), 1.0 + uGranulation * dry * painted * settling);
 
@@ -517,7 +521,7 @@ void main() {
   float rimAA = max(fwidth(amount) * 1.35, rimMinAA);
   float rim = 1.0 - smoothstep(rimAA, rimAA * 2.2, abs(amount - 0.075));
   rim *= smoothstep(0.0015, 0.012, gradientMagnitude);
-  rim *= thinDetail;
+  rim *= detailStrength;
   vec3 pigmentRatio = d / max(dot(d, vec3(1.0)), 0.001);
   d += pigmentRatio * rim * uEdgeDark * dry * 0.16;
   float od = uDensity * (1.0 - 0.55 * mask);
