@@ -474,29 +474,36 @@ void main() {
 
   /* Beer-Lambert glazing: glazes mix like real watercolor (teal over gold
      goes deep green, never gray mud). */
-  vec3 dLB = texture(uPigment, simUv - uPigmentTexel).rgb;
-  vec3 dLT = texture(uPigment, simUv + vec2(-uPigmentTexel.x, uPigmentTexel.y)).rgb;
-  vec3 dRB = texture(uPigment, simUv + vec2(uPigmentTexel.x, -uPigmentTexel.y)).rgb;
-  vec3 dRT = texture(uPigment, simUv + uPigmentTexel).rgb;
+  float rawAmount = dot(d, vec3(1.0));
+  float dry = 1.0 - smoothstep(0.12, 0.55, w);
+  float belowFloor = 1.0 - smoothstep(1.00, 1.35, rawAmount);
+  float thinSampling = belowFloor;
+  vec2 sampleStep = uPigmentTexel * mix(1.0, 8.0, thinSampling);
+  vec3 dLB = texture(uPigment, simUv - sampleStep).rgb;
+  vec3 dLT = texture(uPigment, simUv + vec2(-sampleStep.x, sampleStep.y)).rgb;
+  vec3 dRB = texture(uPigment, simUv + vec2(sampleStep.x, -sampleStep.y)).rgb;
+  vec3 dRT = texture(uPigment, simUv + sampleStep).rgb;
+  vec3 dFarL = texture(uPigment, simUv - vec2(sampleStep.x, 0.0)).rgb;
+  vec3 dFarR = texture(uPigment, simUv + vec2(sampleStep.x, 0.0)).rgb;
+  vec3 dFarB = texture(uPigment, simUv - vec2(0.0, sampleStep.y)).rgb;
+  vec3 dFarT = texture(uPigment, simUv + vec2(0.0, sampleStep.y)).rgb;
   vec3 dL = 0.5 * (dLB + dLT);
   vec3 dR = 0.5 * (dRB + dRT);
   vec3 dB = 0.5 * (dLB + dRB);
   vec3 dT = 0.5 * (dLT + dRT);
-  float rawAmount = dot(d, vec3(1.0));
   float amountL = dot(dL, vec3(1.0));
   float amountR = dot(dR, vec3(1.0));
   float amountB = dot(dB, vec3(1.0));
   float amountT = dot(dT, vec3(1.0));
-  float dry = 1.0 - smoothstep(0.12, 0.55, w);
 
   /* At large backing resolutions a dye texel spans 2-3 screen pixels. Thin
      paint makes that grid visible when the granulation and rim thresholds
-     amplify tiny concentration steps. Four diagonal taps provide a two-axis
-     filter and the rim gradient at the same sampling cost as the old cross;
-     normal paint remains the original sample. */
-  vec3 thinSmooth = (d * 2.0 + dLB + dLT + dRB + dRT) / 6.0;
-  float belowFloor = 1.0 - smoothstep(1.00, 1.35, rawAmount);
-  float thinBlend = max(1.0 - smoothstep(0.08, 0.16, rawAmount), dry * belowFloor);
+     amplify tiny concentration steps. Eight surrounding taps provide a broad
+     two-axis filter below the pigment floor; normal paint remains the original
+     sample. */
+  vec3 thinSmooth = (d * 2.0 + dLB + dLT + dRB + dRT
+                   + dFarL + dFarR + dFarB + dFarT) / 10.0;
+  float thinBlend = max(1.0 - smoothstep(0.08, 0.16, rawAmount), belowFloor);
   d = mix(d, thinSmooth, thinBlend);
   float amount = dot(d, vec3(1.0));
   /* Granulation and pooled edges are character for substantial paint, but at
