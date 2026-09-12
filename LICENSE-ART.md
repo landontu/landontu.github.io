@@ -11,7 +11,9 @@
 - **Museum record:** <https://www.metmuseum.org/art/collection/search/845805>
 - **Open Access API record:** <https://collectionapi.metmuseum.org/public/collection/v1/objects/845805>
 - **Original image:** <https://images.metmuseum.org/CRDImages/as/original/LC-TR_168_1ab_2020_sr1-006.jpg>
-- **Local copy:** `art/moonlit-landscape-rosetsu-1794.jpg`
+- **Local copies:**
+  `prototypes/watercolor-bg/art/moonlit-landscape-rosetsu-1794.jpg` and
+  `prototypes/watercolor-bg/v3-consolidated/art/moonlit-landscape-rosetsu-1794.jpg`
 - **Local SHA-256:** `e0a7a450b4a7aaaf049f3738869febe4ef00d87911e56d4cf7b6fc4b254f8faf`
 
 ## License
@@ -27,16 +29,18 @@ without fee or permission:
 No attribution is legally required for a public-domain work. The full credit
 above is retained as good scholarly practice and to make the derivation auditable.
 
-## What this prototype derives
+## What this site derives
 
-The shipped JPEG is provenance/reference material, not a hotlink and not the
-visible resting background. `tools/derive_art.py` crops the painted scene out of
-the scroll mounting and separates high-frequency dark marks from broad wash
-tone. Those scalar regions seed the R (ink) and G (mist) channels of
-`art/rosetsu-quantized-field.png`; Rosetsu's reserve moon seeds B (gold). This is
-field data, not a flattened reproduction: the shader turns each channel into
-grain-thresholded, feathered watercolor coverage. The script also records 69
-deterministic cluster regions in `js/art-data.js` so the derivation is auditable.
+The shipped JPEG copies are provenance/reference material, not hotlinks and not
+the visible resting background. Each prototype's `tools/derive_art.py` crops the
+painted scene out of the scroll mounting and separates high-frequency dark marks
+from broad wash tone. Those scalar regions seed the R (ink) and G (mist)
+channels of its `art/rosetsu-quantized-field.png`; Rosetsu's reserve moon seeds B
+(gold). This is field data, not a flattened reproduction: the shader turns each
+channel into grain-thresholded, feathered watercolor coverage. The script also
+records 69 deterministic cluster regions in `js/art-data.js` so the derivation
+is auditable. The production copy of that generated data, including embedded
+field and fallback images, is `watercolor/art-data.js`.
 
 The value roles measured from the scan are hue-quantized into the requested
 Moonlit Dragon family (`#314f55`, `#7e958b`, `#d7ba70` on `#e8e1c8`). Every seed
