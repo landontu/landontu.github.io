@@ -1,15 +1,46 @@
 # landontu.github.io
 
-## Dark mode / launch
+Static personal site and portfolio, served directly by GitHub Pages. The site is
+plain HTML, CSS, and JavaScript: there is no dependency install or build step.
 
-GitHub Pages serves a minimal holding page from the orphan `dark` branch while the launch-ready site remains on `main`. To conceal the site, point Pages at `dark`:
+The `main` branch contains the work-in-progress full site. The orphan `dark`
+branch contains the minimal holding site used to conceal it. See
+[Publishing](docs/PUBLISHING.md) before changing the Pages source.
+
+## Run locally
+
+From the repository root:
 
 ```sh
-gh api -X PUT repos/landontu/landontu.github.io/pages -f source[branch]=dark -f source[path]=/
+python3 -m http.server 8000
 ```
 
-To launch the site, point Pages back at `main`:
+Open <http://localhost:8000/>. Also check `/watercolor.html`,
+`/about.html`, and `/portfolio.html`; the last two are compatibility redirects
+into sections of the home page.
 
-```sh
-gh api -X PUT repos/landontu/landontu.github.io/pages -f source[branch]=main -f source[path]=/
-```
+There is no automated test or lint suite. For a change, smoke-test the affected
+page at desktop and mobile widths, check both themes, and confirm the browser
+console and local asset requests are clean.
+
+## Repository map
+
+- `index.html` — the one-page home, about, and portfolio experience.
+- `about.html`, `portfolio.html` — legacy redirect stubs.
+- `watercolor.html` and `watercolor/` — the standalone watercolor exhibit and
+  its simulation modules.
+- `styles.css`, `watercolor*.css`, `showcase.css`, `site.js` — site presentation
+  and behavior.
+- `assets/` — project images used by the main page.
+- `prototypes/` and `screenshots/` — development artifacts, not a separate
+  build input. They are still inside the `main` Pages source tree.
+- `docs/PUBLISHING.md` — branch switch, publish surface, and launch-readiness
+  facts.
+- `LICENSE-ART.md` — artwork provenance and license scope.
+- `AGENTS.md` — task routing and project constraints for coding agents.
+
+## Licensing
+
+`LICENSE-ART.md` covers the source artwork and its derived assets only. This
+repository does not currently include a license for the site's code or other
+content.
