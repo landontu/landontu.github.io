@@ -7,8 +7,8 @@ in this branch; inspect **Settings → Pages** before changing it.
 ## Branch switch
 
 - `dark` is an orphan holding-site branch. Its tracked publish surface is
-  `.nojekyll`, `index.html`, `robots.txt`, and `404.html`. It blocks indexing and
-  displays a minimal unavailable page.
+  `.nojekyll`, `index.html`, `robots.txt`, and `404.html`. Its `robots.txt`
+  blocks crawling, and it displays a minimal unavailable page.
 - `main` contains the full site. Selecting it is the launch action; do so only
   with the owner's explicit approval.
 
@@ -37,8 +37,19 @@ Pages source, GitHub Pages serves the site at that domain and redirects
 moment, the launch is broken or served without HTTPS. Every step below changes
 public state and needs the owner's approval; none is part of routine testing.
 
-1. **DNS for the apex.** At the DNS provider for `landontu.dev`, create apex
-   records pointing at GitHub Pages:
+1. **Verify the domain.** In the account's **Settings → Pages**, add
+   `landontu.dev` as a verified domain. At the DNS provider, create the `TXT`
+   record GitHub shows at `_github-pages-challenge-landontu.landontu.dev`, wait
+   until `dig +short TXT` on that name returns the value, and complete
+   verification. This blocks other GitHub accounts from claiming the domain
+   once DNS points at Pages. Keep the `TXT` record in place.
+2. **Domain on the holding site.** While `dark` is still the source, set the
+   custom domain to `landontu.dev` in the repository's **Settings → Pages**.
+   The DNS check fails until the next step; that is expected. With branch
+   publishing, GitHub may commit a `CNAME` file to `dark`; that is also
+   expected.
+3. **DNS for the apex.** Only after steps 1 and 2, create apex records pointing
+   at GitHub Pages:
    - `A`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
      `185.199.111.153`
    - `AAAA`: `2606:50c0:8000::153`, `2606:50c0:8001::153`,
@@ -47,35 +58,37 @@ public state and needs the owner's approval; none is part of routine testing.
 
    Do not add a wildcard record. If the zone is on Cloudflare, keep these
    records DNS-only (not proxied) until GitHub has issued the certificate.
-   Verify the domain under the account's **Settings → Pages** to guard against
-   takeover. Confirm with `dig +short landontu.dev A` and `AAAA` before
-   continuing.
-2. **Domain on the holding site.** While `dark` is still the source, set the
-   custom domain to `landontu.dev` in **Settings → Pages**. The domain then
-   serves the noindex holding page while GitHub checks DNS. With branch
-   publishing, GitHub may commit a `CNAME` file to `dark`; that is expected.
-3. **Certificate and HTTPS.** Wait until **Settings → Pages** shows the DNS
+   Confirm with `dig +short landontu.dev A` and `AAAA`. The domain then serves
+   the holding page.
+4. **Certificate and HTTPS.** Wait until **Settings → Pages** shows the DNS
    check passing and the certificate issued (usually minutes, occasionally up
    to a day), then enable **Enforce HTTPS**. Confirm that
    `curl -sI https://landontu.dev/` succeeds and that `http://` redirects to
    `https://`.
-4. **Stones subdomain.** `stones.landontu.dev` is a separate DNS record for a
+5. **Stones subdomain.** `stones.landontu.dev` is a separate DNS record for a
    separate host and does not depend on the Pages source. It must return an
    anonymous 200 over HTTPS before the portfolio links to it publicly.
-5. **Source switch.** Only now set the Pages source to `main` (see
-   [Branch switch](#branch-switch)). Afterwards, confirm that **Settings →
+6. **Preflight, then source switch.** Recheck the
+   [launch-readiness facts](#current-launch-readiness-facts) against `main`
+   and confirm steps 1–5 still hold. Only then set the Pages source to `main`
+   (see [Branch switch](#branch-switch)). Afterwards, confirm that **Settings →
    Pages** still lists `landontu.dev` with HTTPS enforced, and that
    `https://landontu.github.io/` redirects to `https://landontu.dev/`.
 
 ### Indexing
 
-Concealment relies on the `dark` holding site, which blocks indexing through
-its `robots.txt`. `main` has no `robots.txt` and its canonical pages do not set
-noindex, so search engines may index the site once `main` is the source. Keep
+Concealment relies on the `dark` holding site, whose `robots.txt` blocks
+crawling. That is not a guarantee against indexing: a search engine can still
+list a disallowed URL, without a snippet, if something links to it. A noindex
+signal only works on pages crawlers are allowed to fetch, so a `robots.txt`
+disallow also hides any noindex on those pages. `main` has no `robots.txt` and
+its canonical pages do not set noindex, so search engines may index the site
+once `main` is the source. Keep
 that switch last, after the domain and HTTPS are confirmed on the holding site,
 so the indexable site first appears at its final HTTPS URL. If the owner wants
-a soft launch that is not indexable, add the noindex signal to `main` before
-the switch and remove it as a separate, deliberate change.
+a soft launch that is not indexable, add noindex to `main`'s pages before the
+switch, leave them crawlable (no `robots.txt` disallow), and remove noindex as
+a separate, deliberate change.
 
 To roll back, set the source to `dark` again. Keep the custom domain and DNS in
 place so the holding site, not a GitHub 404, is served at `landontu.dev`.
