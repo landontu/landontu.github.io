@@ -32,6 +32,9 @@ console and local asset requests are clean.
 - `styles.css`, `watercolor*.css`, `showcase.css`, `site.js` — site presentation
   and behavior.
 - `assets/` — project images used by the main page.
+- `CNAME` — the `landontu.dev` custom domain GitHub Pages reads once `main` is
+  the source. DNS and HTTPS must be ready first; see
+  [Publishing](docs/PUBLISHING.md#custom-domain-and-launch-order).
 - `prototypes/` and `screenshots/` — development artifacts, not a separate
   build input. They are still inside the `main` Pages source tree.
 - `docs/PUBLISHING.md` — branch switch, publish surface, and launch-readiness

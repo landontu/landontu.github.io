@@ -29,6 +29,57 @@ gh api -X PUT repos/landontu/landontu.github.io/pages \
 These commands change public deployment state. Do not run them as a routine
 test or without approval.
 
+## Custom domain and launch order
+
+`main` carries a `CNAME` file containing `landontu.dev`. Once `main` is the
+Pages source, GitHub Pages serves the site at that domain and redirects
+`landontu.github.io` to it. If DNS or the certificate is not ready at that
+moment, the launch is broken or served without HTTPS. Every step below changes
+public state and needs the owner's approval; none is part of routine testing.
+
+1. **DNS for the apex.** At the DNS provider for `landontu.dev`, create apex
+   records pointing at GitHub Pages:
+   - `A`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
+     `185.199.111.153`
+   - `AAAA`: `2606:50c0:8000::153`, `2606:50c0:8001::153`,
+     `2606:50c0:8002::153`, `2606:50c0:8003::153`
+   - Optionally `www` as a `CNAME` to `landontu.github.io`.
+
+   Do not add a wildcard record. If the zone is on Cloudflare, keep these
+   records DNS-only (not proxied) until GitHub has issued the certificate.
+   Verify the domain under the account's **Settings → Pages** to guard against
+   takeover. Confirm with `dig +short landontu.dev A` and `AAAA` before
+   continuing.
+2. **Domain on the holding site.** While `dark` is still the source, set the
+   custom domain to `landontu.dev` in **Settings → Pages**. The domain then
+   serves the noindex holding page while GitHub checks DNS. With branch
+   publishing, GitHub may commit a `CNAME` file to `dark`; that is expected.
+3. **Certificate and HTTPS.** Wait until **Settings → Pages** shows the DNS
+   check passing and the certificate issued (usually minutes, occasionally up
+   to a day), then enable **Enforce HTTPS**. Confirm that
+   `curl -sI https://landontu.dev/` succeeds and that `http://` redirects to
+   `https://`.
+4. **Stones subdomain.** `stones.landontu.dev` is a separate DNS record for a
+   separate host and does not depend on the Pages source. It must return an
+   anonymous 200 over HTTPS before the portfolio links to it publicly.
+5. **Source switch.** Only now set the Pages source to `main` (see
+   [Branch switch](#branch-switch)). Afterwards, confirm that **Settings →
+   Pages** still lists `landontu.dev` with HTTPS enforced, and that
+   `https://landontu.github.io/` redirects to `https://landontu.dev/`.
+
+### Indexing
+
+Concealment relies on the `dark` holding site, which blocks indexing through
+its `robots.txt`. `main` has no `robots.txt` and its canonical pages do not set
+noindex, so search engines may index the site once `main` is the source. Keep
+that switch last, after the domain and HTTPS are confirmed on the holding site,
+so the indexable site first appears at its final HTTPS URL. If the owner wants
+a soft launch that is not indexable, add the noindex signal to `main` before
+the switch and remove it as a separate, deliberate change.
+
+To roll back, set the source to `dark` again. Keep the custom domain and DNS in
+place so the holding site, not a GitHub 404, is served at `landontu.dev`.
+
 ## `main` publish surface
 
 There is no generated deployment artifact or allowlist. Selecting the root of
@@ -45,8 +96,8 @@ owner-authored content:
 - Owner-written text is intentionally held as “Coming soon.” Portfolio
   description slots remain empty in source comments until owner copy is ready.
 - WebHome and recall-AID are intentionally absent while their only destinations
-  are private repositories. Their previous cards remain recoverable from git
-  history.
+  are private repositories. Their cards and screenshots are removed from
+  `main` and remain recoverable from git history.
 - The Stones destination is release-pending and must return an anonymous 200
   before launch.
 - `index.html` has a title and generic description, but no Open Graph or Twitter
