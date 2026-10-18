@@ -106,8 +106,11 @@ surface or publish a deliberately reduced artifact before launch.
 These are documentation of the current files, not changes to site behavior or
 owner-authored content:
 
-- Owner-written text is intentionally held as “Coming soon.” Portfolio
-  description slots remain empty in source comments until owner copy is ready.
+- The hero tagline, About movement, About navigation item, and hero About link
+  are hidden until owner copy is ready; restoration slots remain in source.
+  The watercolor exhibit holds its owner-written text as “Coming soon.”
+  Portfolio description slots remain empty in source comments until owner copy
+  is ready.
 - WebHome and recall-AID are intentionally absent while their only destinations
   are private repositories. Their cards and screenshots are removed from
   `main` and remain recoverable from git history.

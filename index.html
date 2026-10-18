@@ -29,11 +29,12 @@
     </a>
     <nav class="site-nav" aria-label="Primary">
       <span class="nav-highlight" aria-hidden="true"></span>
-      <!-- Nav order IS the scroll order. All three are same-document links, so
-           the delegated handler in site.js:61 turns every one of them into a
-           scroll; there is no page navigation left anywhere on this site. -->
+      <!-- Nav order IS the scroll order. The same-document links use the
+           delegated handler in site.js, so there is no page navigation here. -->
       <a href="index.html" aria-current="page" class="nav-here">Home</a>
+      <!-- About entry point — restore when the owner copy is ready:
       <a href="#about" data-spy="about">About</a>
+      -->
       <a href="#portfolio" data-spy="portfolio">Portfolio</a>
     </nav>
     <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
@@ -52,19 +53,22 @@
         <div class="hero-rise">
           <p class="eyebrow">Hello, I’m</p>
           <h1>Landon Tu</h1>
-          <p class="hero-tagline">Coming soon</p>
+          <!-- Hero tagline slot — owner copy pending. -->
+          <!-- About entry point — restore when the owner copy is ready:
           <div class="hero-actions">
             <a class="text-link" href="#about">About me <span aria-hidden="true">↓</span></a>
           </div>
+          -->
         </div>
       </div>
-      <a class="scroll-cue" href="#about">
+      <a class="scroll-cue" href="#portfolio">
         <span class="scroll-cue-label">Scroll</span>
         <span class="scroll-cue-rail" aria-hidden="true"><i></i></span>
       </a>
     </section>
 
-    <section class="about-shell" id="about" aria-labelledby="about-heading">
+    <!-- About stays in source for restoration when the owner copy is ready. -->
+    <section class="about-shell" id="about" aria-labelledby="about-heading" hidden>
      <div class="about-inner">
       <!-- No second <h1> and no repeat of the name: on one page the hero
            already said it, and during the descent both were on screen at once,
@@ -79,11 +83,9 @@
      </div>
     </section>
 
-    <!-- Third movement. Same sheet language as about, one level further down
-         the descent: the about sheet's paper gradient has already reached its
-         89% plateau by here, so this section holds exactly that value and the
-         junction shows no seam. The card system below stays within the
-         portfolio page's existing visual language. -->
+    <!-- Portfolio follows the hero while About is hidden. Its CSS takes over
+         the wash-to-paper transition; restoring About restores the original
+         three-movement descent without another markup change. -->
     <section class="portfolio-shell" id="portfolio" aria-labelledby="portfolio-heading">
      <div class="portfolio-inner">
       <header class="portfolio-intro">

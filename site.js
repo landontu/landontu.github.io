@@ -33,16 +33,16 @@
      index.html. On index.html that is a full document reload: the watercolor
      canvas is torn down and reseeded, the panel's settings were (until the
      companion change in watercolor/main.js) thrown away, and the reader is
-     teleported to the top with no transition — while the sibling "About" link,
-     one pixel away in the same nav, scrolls smoothly. Two links in one nav
-     behaving differently is the actual complaint.
+     teleported to the top with no transition — while sibling in-page links
+     scroll smoothly. Links in one nav behaving differently is the actual
+     complaint.
 
      Fixed by predicate rather than by selector: any anchor whose resolved URL
      is THIS document (same path and query, hash ignored) is a scroll, not a
-     navigation. That is what makes the nav symmetric now that Home, About and
-     Portfolio are all the same document — the three of them take one code
-     path, and so do the hero's "About me" link, the scroll cue and the footer
-     byline. It automatically stops covering anything from the about.html /
+     navigation. That is what keeps the nav symmetric now that its entries are
+     on the same document. The hero entry point (when restored), scroll cue,
+     and footer byline take that path too. It automatically stops covering
+     anything from the about.html /
      portfolio.html redirect stubs, where index.html genuinely IS a different
      document.
 
@@ -51,7 +51,7 @@
      for. Smoothness is NOT specified here either: the scrolls below omit
      `behavior`, which resolves to the element's computed `scroll-behavior`, so
      they inherit styles.css:69 and its reduced-motion override at styles.css:321
-     exactly as the existing #about links already did. One definition of "does
+     exactly as the section links do. One definition of "does
      this page glide", in the stylesheet, where the media query already lives. */
   function samePage(a) {
     if (!a || a.target === '_blank' || a.hasAttribute('download')) return false;
@@ -129,7 +129,7 @@
     pointAt(current, true);
     window.addEventListener("resize", function () { pointAt(current, true); });
 
-    // All three nav entries are now the same document, so the resting pill has
+    // All nav entries are on the same document, so the resting pill has
     // to follow the reader instead of the URL. aria-current="page" stays on the
     // real page link (Home) — an in-page section is not a different page — and
     // the highlight is a purely visual scroll-spy on top of it.
@@ -155,7 +155,7 @@
   var journey = document.querySelector(".home-main");
 
   if (journey) {
-    // Arriving already below the fold — a #about deep link, a restored scroll
+    // Arriving already below the fold — a section deep link, a restored scroll
     // position — must not play the hero's entrance at a hero nobody can see.
     // Checked twice because neither check alone is enough: this script is
     // `defer`, so at parse time scrollY is still 0 for a fragment navigation

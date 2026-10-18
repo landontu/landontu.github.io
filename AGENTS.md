@@ -15,10 +15,11 @@ Read [README.md](README.md) first for the project map and local workflow.
 
 ## Project constraints
 
-- `index.html` and the owner-text area in `watercolor.html` reserve the owner's
-  personal voice with “Coming soon.” Do not draft replacement copy. Project
-  description slots are intentionally empty source comments until owner copy
-  is available.
+- The hero tagline and About movement in `index.html` are deferred and hidden;
+  their restoration slots remain in source until owner copy is ready. The
+  owner-text area in `watercolor.html` uses “Coming soon.” Do not draft
+  replacement copy. Project description slots are intentionally empty source
+  comments until owner copy is available.
 - WebHome and recall-AID cards are deferred while their repositories are
   private. Restore them from git history only after public destinations are
   approved.

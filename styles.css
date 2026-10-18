@@ -292,6 +292,7 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
     color-mix(in srgb, var(--paper) 62%, transparent) 7rem,
     color-mix(in srgb, var(--paper) 89%, transparent) 16rem);
 }
+.about-shell[hidden] { display: none; }
 .about-inner { width: min(100% - 3rem, 76rem); margin: 0 auto; padding: 4rem 0 0; }
 
 /* The about section opens on its own display word rather than a second copy
@@ -315,6 +316,15 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 .portfolio-shell {
   position: relative; z-index: 2;
   background: color-mix(in srgb, var(--paper) 89%, transparent);
+}
+/* While About is deferred, Portfolio becomes the second movement and owns the
+   same gradual wash-to-paper handoff that About normally provides. Removing
+   `hidden` from .about-shell restores the original flat continuation here. */
+.about-shell[hidden] + .portfolio-shell {
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--paper) 0%, transparent) 0,
+    color-mix(in srgb, var(--paper) 62%, transparent) 7rem,
+    color-mix(in srgb, var(--paper) 89%, transparent) 16rem);
 }
 .portfolio-inner { width: min(100% - 3rem, 76rem); margin: 0 auto; }
 /* Eyebrow in the 9rem rail, display word beside it — the same left gutter the
