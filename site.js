@@ -50,7 +50,7 @@
      the wordmark still opens a real tab, because that is what the reader asked
      for. Smoothness is NOT specified here either: the scrolls below omit
      `behavior`, which resolves to the element's computed `scroll-behavior`, so
-     they inherit styles.css:69 and its reduced-motion override at styles.css:321
+     they inherit styles.css:77 and its reduced-motion override at styles.css:390
      exactly as the section links do. One definition of "does
      this page glide", in the stylesheet, where the media query already lives. */
   function samePage(a) {

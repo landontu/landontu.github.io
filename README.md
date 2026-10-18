@@ -26,7 +26,8 @@ console and local asset requests are clean.
 
 ## Repository map
 
-- `index.html` — the one-page home, about, and portfolio experience.
+- `index.html` — the one-page home and portfolio experience. The About
+  section and its entry points are hidden in source until owner copy is ready.
 - `about.html`, `portfolio.html` — legacy redirect stubs.
 - `watercolor.html` and `watercolor/` — the standalone watercolor exhibit and
   its simulation modules.

@@ -306,13 +306,13 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 .about-coming-soon { min-height: 20rem; display: grid; align-items: center; padding: 5rem 0 5rem 9rem; border-bottom: 1px solid var(--line); }
 .about-coming-soon p { margin: 0; color: var(--ink-soft); font: 500 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, "Times New Roman", serif; }
 /* -------------------------------------------------------- portfolio sheet
-   The third movement, and the bottom of the descent. The about sheet's paper
-   gradient stops climbing at 16rem and holds 89% for the rest of its height,
-   so this sheet is that same flat 89% — a different value here would draw a
-   visible horizontal seam across the wash at the section junction. It is a
-   sheet rather than a continuation of .about-shell because the scroll spy
-   needs two separate sections to observe, and because the nav's Portfolio
-   anchor has to land on a real element. */
+   The third movement (second while About is hidden), and the bottom of the
+   descent. The about sheet's paper gradient stops climbing at 16rem and holds
+   89% for the rest of its height, so this sheet is that same flat 89% — a
+   different value here would draw a visible horizontal seam across the wash at
+   the section junction. It is a sheet rather than a continuation of
+   .about-shell because the scroll spy needs two separate sections to observe,
+   and because the nav's Portfolio anchor has to land on a real element. */
 .portfolio-shell {
   position: relative; z-index: 2;
   background: color-mix(in srgb, var(--paper) 89%, transparent);
