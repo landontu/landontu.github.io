@@ -17,7 +17,8 @@ python3 -m http.server 8000
 
 Open <http://localhost:8000/>. Also check `/watercolor.html`,
 `/about.html`, and `/portfolio.html`; the last two are compatibility redirects
-into sections of the home page.
+to the home page (`/about.html` lands at the top while About is hidden;
+`/portfolio.html` lands on its section).
 
 There is no automated test or lint suite. For a change, smoke-test the affected
 page at desktop and mobile widths, check both themes, and confirm the browser

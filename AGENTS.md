@@ -26,7 +26,8 @@ Read [README.md](README.md) first for the project map and local workflow.
 - This is a dependency-free static site. Do not introduce a build system just
   to run or publish existing files.
 - `about.html` and `portfolio.html` intentionally preserve old URLs by
-  redirecting to sections in `index.html`.
+  redirecting to `index.html`. While About is hidden, `about.html` targets the
+  top of the page; restore `index.html#about` when About is published.
 - The `dark` branch is an orphan holding site. Changing the GitHub Pages source
   changes public visibility; follow the approval note in the publishing guide.
 - Keep implementation rationale next to the relevant code. The detailed

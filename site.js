@@ -164,7 +164,20 @@
     var markDeepLoad = function () {
       if (window.scrollY > 8) root.classList.add("wc-deep-load");
     };
-    if (location.hash && location.hash !== "#main-content") root.classList.add("wc-deep-load");
+    // A fragment whose target is missing or `hidden` (a deferred section such
+    // as #about) has nowhere to land: the browser stays at the top, so treat
+    // it as a plain visit — drop the stale hash and keep the hero's entrance.
+    if (location.hash && location.hash !== "#main-content") {
+      var hashId = location.hash.slice(1);
+      try { hashId = decodeURIComponent(hashId); } catch (_) {}
+      var hashTarget = document.getElementById(hashId);
+      if (!hashTarget || hashTarget.closest("[hidden]")) {
+        history.replaceState(history.state, "", location.pathname + location.search);
+        window.scrollTo(0, 0);
+      } else {
+        root.classList.add("wc-deep-load");
+      }
+    }
     markDeepLoad();
     window.addEventListener("load", markDeepLoad);
 
