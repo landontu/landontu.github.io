@@ -16,7 +16,7 @@
    to undo both. */
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Hanken Grotesk", sans-serif;
   background: var(--wc-paper);
   color: var(--wc-text);
 }

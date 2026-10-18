@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("assets/fonts/hanken-grotesk.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light dark;
   --paper: #e9e4cf;
@@ -12,7 +20,7 @@
   --shadow: 0 20px 60px color-mix(in srgb, var(--ink) 12%, transparent);
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --ease-soft: cubic-bezier(.22, .61, .36, 1);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Hanken Grotesk", sans-serif;
 }
 
 :root[data-theme="dark"] {
@@ -213,8 +221,7 @@ html.wc-deep-load .hero-rise { animation: none; }
 .hero h1 { margin: 0; font: 500 clamp(4rem, 11vw, 9rem)/.85 Georgia, "Times New Roman", serif; letter-spacing: -.065em; }
 .hero h1 { color: var(--ink); text-shadow: 0 1px 0 color-mix(in srgb, var(--paper) 70%, transparent); }
 .hero .eyebrow { color: var(--teal); }
-.hero .hero-tagline { margin: 1.8rem 0 0; display: flex; flex-wrap: wrap; gap: .55rem; align-items: baseline; color: var(--ink-soft); font-size: clamp(1rem, 1.8vw, 1.35rem); }
-.placeholder-label { display: inline-block; padding: .3rem .48rem; border: 1px solid currentColor; border-radius: .25rem; color: var(--teal); font: 700 .58rem/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .07em; }
+.hero .hero-tagline { margin: 1.8rem 0 0; display: flex; flex-wrap: wrap; gap: .55rem; align-items: baseline; color: var(--ink-soft); font-size: clamp(1rem, 1.8vw, 1.35rem); letter-spacing: normal; }
 .hero-actions { margin-top: 2.4rem; }
 .text-link { display: inline-flex; gap: .6rem; align-items: center; padding-bottom: .3rem; border-bottom: 1px solid var(--ink); text-decoration: none; font-size: .85rem; font-weight: 650; transition: color .18s ease, border-color .18s ease, gap .35s var(--ease-out); }
 .text-link:hover { color: var(--teal); border-color: var(--teal); gap: .95rem; }
@@ -256,48 +263,21 @@ html.wc-deep-load .hero-rise { animation: none; }
 
 .portfolio-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; padding: 3rem 0 4rem; }
 .project-card { grid-column: span 6; }
-.project-visual { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1rem; background: var(--paper-raised); }
+.project-visual { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 8px; background: var(--paper-raised); }
 .project-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out), filter .35s ease; }
-a.project-visual:hover img { transform: scale(1.025); }
+a.project-visual:hover img, a.project-visual:hover svg { transform: scale(1.025); }
+a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+.stones-visual { color: var(--teal); }
+.stones-visual svg { display: block; width: 100%; height: 100%; transition: transform .7s var(--ease-out); }
+.stones-board { fill: color-mix(in srgb, var(--gold) 18%, var(--paper-raised)); stroke: var(--teal); stroke-width: 10; }
+.stones-lines { fill: none; stroke: var(--teal); stroke-linecap: square; stroke-linejoin: miter; stroke-width: 10; }
+.stones-pieces { fill: var(--ink); stroke: var(--paper-raised); stroke-width: 8; }
 .project-meta { padding: 1rem .2rem 2rem; }
 .project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
 .project-meta h3 a { text-decoration: none; }
-.project-meta p { max-width: 38rem; color: var(--ink-soft); line-height: 1.65; }
-.project-meta code { font-size: .88em; overflow-wrap: anywhere; }
-.draft-note { display: inline-block; margin-right: .35rem; color: var(--teal); font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.project-meta .project-link-note { margin-top: -.35rem; font-size: .78rem; }
-.project-tags { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0; list-style: none; }
-.project-tags li { padding: .25rem .55rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font-size: .68rem; }
-.empty-state { grid-column: 1 / -1; min-height: 22rem; display: grid; place-content: center; justify-items: center; padding: 3rem; border: 1px dashed var(--line); border-radius: 1.25rem; text-align: center; }
-/* The empty room with an exhibit already in it: same panel, one cell wide, and
-   aligned to the card's visual rather than to the whole card, so the two tops
-   agree and the dashed box does not run down past the card's meta block. */
-.empty-state-beside { grid-column: span 6; min-height: 0; aspect-ratio: 4 / 3; align-self: start; padding: 2rem; }
-/* The visual half of a card whose cover image the owner has not chosen yet.
-   Same dashed-placeholder language as .portrait-placeholder, same 4/3 box as a
-   real .project-visual, so the grid does not reflow when the <img> lands. */
-.project-visual-empty { display: grid; place-content: center; justify-items: center; gap: .5rem; padding: 2rem; border: 1px dashed var(--line); background: color-mix(in srgb, var(--paper-raised) 55%, transparent); color: var(--ink-soft); text-align: center; text-decoration: none; transition: border-color .22s ease, background-color .25s ease; }
-.project-visual-empty strong { font: 400 .8rem/1.4 inherit; }
-.project-visual-empty:hover { border-color: var(--teal); background: color-mix(in srgb, var(--paper-raised) 80%, transparent); }
-.project-visual-empty:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-/* h3, not h2: on the one-pager the section's own heading is the <h2>. */
-.empty-state h3 { margin: 1.4rem 0 .35rem; font: 500 clamp(1.7rem, 4vw, 2.4rem)/1.2 Georgia, serif; }
-.empty-state p { margin: 0; color: var(--ink-soft); }
-/* …and it stops shouting. At display size the placeholder's "more exhibits are
-   being prepared" was set larger than the title of the exhibit standing next to
-   it, so the empty half of the room read as the headline and the actual work as
-   a caption. It is a note now, not a movement. */
-.empty-state-beside h3 { font-size: clamp(1.1rem, 1.6vw, 1.35rem); margin: 1rem 0 .3rem; }
-.empty-state-beside p { font-size: .82rem; }
-.empty-state-beside .empty-mark { height: 1.6rem; }
-.empty-state-beside .empty-mark i { height: .8rem; }
-.empty-state-beside .empty-mark i:nth-child(2) { height: 1.4rem; }
-.empty-state-beside .empty-mark i:nth-child(3) { height: 1rem; }
-.empty-mark { display: flex; gap: .4rem; align-items: end; height: 2.6rem; }
-.empty-mark i { display: block; width: .45rem; height: 1.2rem; border-radius: 999px; background: var(--teal); transform: rotate(25deg); opacity: .65; }
-.empty-mark i:nth-child(2) { height: 2.2rem; background: var(--gold); transform: rotate(12deg); }
-.empty-mark i:nth-child(3) { height: 1.6rem; background: var(--celadon); transform: rotate(-8deg); }
-
+.project-meta h3 a { transition: color .14s ease; }
+.project-meta h3 a:hover { color: var(--teal); }
+.project-meta h3 a:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
 /* ------------------------------------------------------------ about sheet
    Legibility is STRUCTURAL, not animated: the sheet is a real scrolling
    surface whose paper thickens over its first 16rem, so the wash settles
@@ -315,30 +295,15 @@ a.project-visual:hover img { transform: scale(1.025); }
 .about-inner { width: min(100% - 3rem, 76rem); margin: 0 auto; padding: 4rem 0 0; }
 
 /* The about section opens on its own display word rather than a second copy
-   of the name — the 9rem indent lines it up with the 01-04 number rail. */
-.about-intro { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 2rem; padding: 4.5rem 0 5rem; border-bottom: 1px solid var(--line); }
+   of the name. The inset carries the alignment established by the portfolio. */
+.about-intro { position: relative; padding: 4.5rem 0 5rem; border-bottom: 1px solid var(--line); }
 /* One display word per movement, at one size. About indents its word to the
    9rem number rail; Portfolio gets there by sitting in the rail's grid column
    instead, with its eyebrow in the rail itself. */
 .about-display, .portfolio-display { margin: 0; font: 500 clamp(4.4rem, 10vw, 8.5rem)/.85 Georgia, "Times New Roman", serif; letter-spacing: -.065em; }
 .about-display { margin-left: 9rem; }
-.portrait-placeholder { width: min(25vw, 15rem); aspect-ratio: 3 / 4; display: grid; place-content: center; gap: .5rem; padding: 1rem; border: 1px dashed var(--line); border-radius: 50% 50% 1rem 1rem; color: var(--ink-soft); text-align: center; }
-.portrait-placeholder span, .owner-copy::before { font: 700 .56rem/1.3 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .07em; }
-.portrait-placeholder strong { font: 400 .8rem/1.4 inherit; }
-.about-content { display: grid; gap: 0; }
-.about-lede, .about-contact { display: grid; grid-template-columns: 9rem 1fr; padding: 5rem 0; border-bottom: 1px solid var(--line); }
-.about-columns { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
-.about-columns article { padding: 4rem 4rem 4rem 9rem; }
-.about-columns article + article { border-left: 1px solid var(--line); }
-.section-number { margin: .25rem 0; color: var(--gold); font: 600 .7rem/1 ui-monospace, monospace; }
-/* Grid items default to min-width:auto, and the placeholder headings are one
-   unbreakable 22-character token at clamp(...,4vw,...) — which is why the old
-   about page pushed 8px of horizontal scroll at 1280w. Harmless on its own
-   page; on the merged page it puts a sideways wobble into the descent. */
-.about-lede > div, .about-contact > div, .about-columns article { min-width: 0; }
-.about-content h3 { margin: 0 0 1.2rem; font: 500 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, serif; overflow-wrap: anywhere; }
-.owner-copy { min-height: 6rem; max-width: 38rem; margin: 0; padding: 1.4rem; border-left: 2px solid var(--celadon); background: color-mix(in srgb, var(--paper-raised) 65%, transparent); color: var(--ink-soft); font-size: 1rem; line-height: 1.7; }
-.owner-copy::before { content: "OWNER-TEXT-PLACEHOLDER"; display: block; margin-bottom: .6rem; color: var(--teal); }
+.about-coming-soon { min-height: 20rem; display: grid; align-items: center; padding: 5rem 0 5rem 9rem; border-bottom: 1px solid var(--line); }
+.about-coming-soon p { margin: 0; color: var(--ink-soft); font: 500 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, "Times New Roman", serif; }
 /* -------------------------------------------------------- portfolio sheet
    The third movement, and the bottom of the descent. The about sheet's paper
    gradient stops climbing at 16rem and holds 89% for the rest of its height,
@@ -402,18 +367,12 @@ a.project-visual:hover img { transform: scale(1.025); }
   .portfolio-shell { scroll-margin-top: 5rem; }
   .portfolio-inner { width: min(100% - 2rem, 76rem); }
   .portfolio-intro { grid-template-columns: 1fr; padding: 3rem 0 2.5rem; }
-  .about-intro { grid-template-columns: 1fr; padding: 2.5rem 0 2.5rem; }
+  .about-intro { padding: 2.5rem 0; }
   .about-display, .portfolio-display { font-size: clamp(3.6rem, 18vw, 6rem); }
   .about-display { margin-left: 0; }
   .portfolio-intro .eyebrow { margin-bottom: 1rem; }
-  .portrait-placeholder { justify-self: start; width: 9rem; margin: 2.5rem 0 0; }
   .project-card { grid-column: 1 / -1; }
-  .empty-state { min-height: 18rem; padding: 2rem 1rem; }
-  .empty-state-beside { grid-column: 1 / -1; aspect-ratio: auto; min-height: 14rem; }
-  .about-lede, .about-contact { grid-template-columns: 2.5rem 1fr; padding: 3rem 0; }
-  .about-columns { grid-template-columns: 1fr; }
-  .about-columns article { padding: 3rem 0; }
-  .about-columns article + article { border-left: 0; border-top: 1px solid var(--line); }
+  .about-coming-soon { min-height: 14rem; padding: 3rem 0; }
   .site-footer { width: min(100% - 2rem, 76rem); }
 }
 

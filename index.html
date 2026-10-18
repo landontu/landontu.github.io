@@ -52,7 +52,7 @@
         <div class="hero-rise">
           <p class="eyebrow">Hello, I’m</p>
           <h1>Landon Tu</h1>
-          <p class="hero-tagline"><span class="placeholder-label">OWNER-TEXT-PLACEHOLDER</span> <span>[your words here]</span></p>
+          <p class="hero-tagline">Coming soon</p>
           <div class="hero-actions">
             <a class="text-link" href="#about">About me <span aria-hidden="true">↓</span></a>
           </div>
@@ -71,41 +71,10 @@
            which read as a duplicated heading rather than a transition. -->
       <header class="about-intro">
         <h2 class="about-display reveal" id="about-heading" style="--i:0">About</h2>
-        <div class="portrait-placeholder reveal" style="--i:1" role="img" aria-label="OWNER-TEXT-PLACEHOLDER — portrait">
-          <span>OWNER-TEXT-PLACEHOLDER</span>
-          <strong>[your portrait here]</strong>
-        </div>
       </header>
 
-      <div class="about-content">
-        <section class="about-lede" aria-label="OWNER-TEXT-PLACEHOLDER — 01">
-          <p class="section-number reveal" style="--i:0">01</p>
-          <div>
-            <h3 id="about-story" class="reveal" style="--i:1">OWNER-TEXT-PLACEHOLDER</h3>
-            <p class="owner-copy reveal" style="--i:2">[your words here]</p>
-          </div>
-        </section>
-
-        <section class="about-columns" aria-label="OWNER-TEXT-PLACEHOLDER — 02–03">
-          <article>
-            <p class="section-number reveal" style="--i:0">02</p>
-            <h3 class="reveal" style="--i:1">OWNER-TEXT-PLACEHOLDER</h3>
-            <p class="owner-copy reveal" style="--i:2">[your words here]</p>
-          </article>
-          <article>
-            <p class="section-number reveal" style="--i:1">03</p>
-            <h3 class="reveal" style="--i:2">OWNER-TEXT-PLACEHOLDER</h3>
-            <p class="owner-copy reveal" style="--i:3">[your words here]</p>
-          </article>
-        </section>
-
-        <section class="about-contact" aria-label="OWNER-TEXT-PLACEHOLDER — 04">
-          <p class="section-number reveal" style="--i:0">04</p>
-          <div>
-            <h3 id="about-contact" class="reveal" style="--i:1">OWNER-TEXT-PLACEHOLDER</h3>
-            <p class="owner-copy reveal" style="--i:2">[your words here]</p>
-          </div>
-        </section>
+      <div class="about-coming-soon reveal" style="--i:1">
+        <p>Coming soon</p>
       </div>
      </div>
     </section>
@@ -123,48 +92,43 @@
       </header>
 
       <section class="portfolio-grid" aria-label="Portfolio exhibits">
+        <!-- WebHome and recall-AID are deferred while their destinations are
+             private. Restore their cards from git history once public links
+             are approved. -->
         <article class="project-card reveal" style="--i:0">
-          <a class="project-visual" href="https://github.com/landontu/WebHome">
-            <img src="assets/projects/webhome.webp" width="1200" height="750" loading="lazy" decoding="async" alt="WebHome new-tab dashboard with paper surfaces, a serif greeting, and a quiet search bar">
+          <a class="project-visual" href="https://www.desmos.com/calculator/bvrtbixju4">
+            <img src="assets/projects/desmos-game.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Desmos Quest title screen with a Play button">
           </a>
           <div class="project-meta">
-            <h3><a href="https://github.com/landontu/WebHome">WebHome</a></h3>
-            <!-- DRAFT — owner to rewrite. Kept verbatim from the showcase brief. -->
-            <p><span class="draft-note">Draft copy</span> WebHome is a Chromium MV3 new-tab extension that turns a blank tab into a configurable dashboard with search, widgets, wallpaper, and a keyboard-first slash-command palette. Its React/TypeScript architecture keeps layouts and settings in extension storage, while AI commands use short-lived, nonce-keyed <code>chrome.storage.session</code> records so prompts do not travel in provider URLs.</p>
+            <h3><a href="https://www.desmos.com/calculator/bvrtbixju4">Desmos Quest</a></h3>
+            <!-- Project description slot — owner copy pending. -->
           </div>
         </article>
 
         <article class="project-card reveal" style="--i:1">
-          <div class="project-visual">
-            <img src="assets/projects/desmos-game.webp" width="1200" height="750" loading="lazy" decoding="async" alt="A planted flag on the gold goal in level five of the Desmos puzzle platformer">
-          </div>
+          <a class="project-visual stones-visual" href="https://stones.landontu.dev" aria-label="Open Stones">
+            <svg viewBox="0 0 1200 750" aria-hidden="true">
+              <rect class="stones-board" x="300" y="90" width="600" height="570" rx="8"/>
+              <path class="stones-lines" d="M390 180H810V570H390ZM480 270H720V480H480ZM300 375H900M600 90V660"/>
+              <g class="stones-pieces">
+                <circle cx="390" cy="180" r="25"/><circle cx="600" cy="180" r="25"/><circle cx="720" cy="270" r="25"/>
+                <circle cx="480" cy="480" r="25"/><circle cx="600" cy="570" r="25"/><circle cx="810" cy="570" r="25"/>
+              </g>
+            </svg>
+          </a>
           <div class="project-meta">
-            <h3>desmos-game</h3>
-            <!-- DRAFT — owner to rewrite. Kept verbatim from the showcase brief. -->
-            <p><span class="draft-note">Draft copy</span> ProjectKindaWorking is a five-level 3D puzzle platformer built entirely inside a Desmos 2D graph, including title/select/win states, keyboard movement, camera turns, one-way drops, and stateful doors. A Python generator emits the 310-item graph while offline validators cross-check the layered heightfield, movement, painter ordering, shading, camera staging, and solvability.</p>
-            <p class="project-link-note">A public link for the current build is not available yet.</p>
+            <h3><a href="https://stones.landontu.dev">Stones</a></h3>
+            <!-- Project description slot — owner copy pending. -->
           </div>
         </article>
 
         <article class="project-card reveal" style="--i:2">
-          <a class="project-visual" href="https://github.com/landontu/recall-AID">
-            <img src="assets/projects/recall-aid.webp" width="1200" height="750" loading="lazy" decoding="async" alt="recall-AID review screen with a problem, answer choices, and interval controls">
+          <a class="project-visual" href="index.html">
+            <img src="assets/projects/personal-website.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Landon Tu personal website over its interactive watercolor background">
           </a>
           <div class="project-meta">
-            <h3><a href="https://github.com/landontu/recall-AID">recall-AID</a></h3>
-            <!-- DRAFT — owner to rewrite. Kept verbatim from the showcase brief. -->
-            <p><span class="draft-note">Draft copy</span> recall-AID is a course-agnostic spaced-repetition workspace over a Markdown knowledge graph, with an FSRS-backed daily queue, map-first library, and keyboard-driven problem review. The current self-report MVP combines a Python/FastAPI core, SQLite review ledger, React/TypeScript frontend, and Tauri desktop shell while keeping course notes and card content human-readable and git-diffable.</p>
-          </div>
-        </article>
-
-        <article class="project-card reveal" style="--i:3">
-          <div class="project-visual">
-            <img src="assets/projects/personal-website.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Landon Tu personal website over its interactive watercolor background">
-          </div>
-          <div class="project-meta">
-            <h3>Personal website</h3>
-            <!-- DRAFT — owner to rewrite. This card describes the page hosting the portfolio. -->
-            <p><span class="draft-note">Draft copy</span> This one-page personal site uses an interactive WebGL watercolor simulation as its background and carries that identity through its introduction, about, and portfolio sections. The watercolor has a <a href="watercolor.html">separate exhibit</a> where its composition can be explored directly.</p>
+            <h3><a href="index.html">This site</a></h3>
+            <!-- Project description slot — owner copy pending. -->
           </div>
         </article>
       </section>

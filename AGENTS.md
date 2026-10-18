@@ -15,9 +15,13 @@ Read [README.md](README.md) first for the project map and local workflow.
 
 ## Project constraints
 
-- `index.html` and the owner-text areas in `watercolor.html` contain the owner's
-  personal voice. Do not draft or replace owner copy; placeholders and text
-  marked as draft require owner input.
+- `index.html` and the owner-text area in `watercolor.html` reserve the owner's
+  personal voice with “Coming soon.” Do not draft replacement copy. Project
+  description slots are intentionally empty source comments until owner copy
+  is available.
+- WebHome and recall-AID cards are deferred while their repositories are
+  private. Restore them from git history only after public destinations are
+  approved.
 - This is a dependency-free static site. Do not introduce a build system just
   to run or publish existing files.
 - `about.html` and `portfolio.html` intentionally preserve old URLs by

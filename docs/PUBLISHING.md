@@ -42,11 +42,19 @@ surface or publish a deliberately reduced artifact before launch.
 These are documentation of the current files, not changes to site behavior or
 owner-authored content:
 
-- `index.html` and `watercolor.html` still contain owner-text placeholders, and
-  the portfolio descriptions in `index.html` are marked as draft.
+- Owner-written text is intentionally held as “Coming soon.” Portfolio
+  description slots remain empty in source comments until owner copy is ready.
+- WebHome and recall-AID are intentionally absent while their only destinations
+  are private repositories. Their previous cards remain recoverable from git
+  history.
+- The Stones destination is release-pending and must return an anonymous 200
+  before launch.
 - `index.html` has a title and generic description, but no Open Graph or Twitter
   card metadata and no absolute canonical URL.
 - `main` has no custom `404.html`, `robots.txt`, or `sitemap.xml`.
+- The canonical home page and watercolor exhibit do not set noindex. The
+  compatibility-only `about.html` and `portfolio.html` redirect stubs retain
+  noindex plus canonical links to avoid indexing duplicate pages.
 - [LICENSE-ART.md](../LICENSE-ART.md) covers artwork only. No code license has
   been selected.
 
