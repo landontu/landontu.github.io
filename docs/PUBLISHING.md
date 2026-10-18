@@ -119,8 +119,9 @@ owner-authored content:
 - The canonical home page and watercolor exhibit do not set noindex. The
   compatibility-only `about.html` and `portfolio.html` redirect stubs retain
   noindex plus canonical links to avoid indexing duplicate pages.
-- [LICENSE-ART.md](../LICENSE-ART.md) covers artwork only. No code license has
-  been selected.
+- [LICENSE-ART.md](../LICENSE-ART.md) covers artwork only, and
+  `assets/fonts/OFL.txt` covers the bundled font only. No code license has been
+  selected.
 
 Before launch, the owner needs to resolve the copy, intended publish surface,
 metadata/404 scope, and code-license choices. Recheck every item against `main`

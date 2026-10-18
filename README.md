@@ -31,7 +31,8 @@ console and local asset requests are clean.
   its simulation modules.
 - `styles.css`, `watercolor*.css`, `showcase.css`, `site.js` — site presentation
   and behavior.
-- `assets/` — project images used by the main page.
+- `assets/` — project images used by the main page and the self-hosted Hanken
+  Grotesk font (`assets/fonts/`, with its `OFL.txt` license).
 - `CNAME` — the `landontu.dev` custom domain GitHub Pages reads once `main` is
   the source. DNS and HTTPS must be ready first; see
   [Publishing](docs/PUBLISHING.md#custom-domain-and-launch-order).
@@ -44,6 +45,7 @@ console and local asset requests are clean.
 
 ## Licensing
 
-`LICENSE-ART.md` covers the source artwork and its derived assets only. This
-repository does not currently include a license for the site's code or other
-content.
+`LICENSE-ART.md` covers the source artwork and its derived assets only. The
+bundled Hanken Grotesk font is distributed under the SIL Open Font License; see
+`assets/fonts/OFL.txt`. This repository does not currently include a license
+for the site's code or other content.
