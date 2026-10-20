@@ -18,18 +18,19 @@ Read [README.md](README.md) first for the project map and local workflow.
 - The hero tagline and About movement in `index.html` are deferred and hidden;
   their restoration slots remain in source until owner copy is ready. The
   owner-text area in `watercolor.html` uses “Coming soon.” Do not draft
-  replacement copy. The Stones card's one-line description is an intentionally
-  empty, marked source slot until the owner writes it.
+  replacement copy.
 - Owner text decisions (2026-10-20): the header LT wordmark and the hero
   “Hello, I’m” line are removed (the hero line stays as a restoration comment);
   the portfolio has no eyebrow, a deliberately small heading, three columns at
   75% width, and Stones as a muted coming-soon card. The Desmos Quest card
-  shows `assets/projects/desmos-game.gif` (level 1 turning slowly, captured
-  headlessly from the release graph https://www.desmos.com/calculator/msmxoizut3
-  via `Calc` with the Menus and HUD and Control stick folders hidden; its
-  reduced-motion still is `desmos-game.webp`). The This site card image is a
-  stale screenshot that predates the header/hero changes; replace it only if
-  the owner asks.
+  shows level 1 turning slowly in `desmos-game.mp4` / `desmos-game.webm`,
+  captured deterministically at 30 fps from the release graph
+  https://www.desmos.com/calculator/msmxoizut3 via `Calc` with the Menus and HUD
+  and Control stick folders hidden. Its `desmos-game.webp` poster is the default;
+  desktop hover or keyboard focus lazy-loads and plays the video, while leave or
+  blur resets it. Touch and reduced-motion readers never load the video. The
+  This site card image is a stale screenshot that predates the header/hero
+  changes; replace it only if the owner asks.
 - WebHome and recall-AID cards are deferred while their repositories are
   private. Restore them from git history only after public destinations are
   approved.

@@ -237,6 +237,52 @@
     }
   }
 
+  /* ---------------------------------------------------- project-card video
+     The poster is the default, not a loading placeholder. Video sources stay
+     inert in data-src attributes until a hover-capable, non-reduced-motion
+     reader asks for motion. That keeps the 250 KB pair off phones and out of
+     the initial page load; pointer leave and focus loss return to frame zero. */
+  var desmosVideo = document.querySelector(".desmos-video");
+  var desmosLink = desmosVideo && desmosVideo.closest("a.project-visual");
+  var motionPointerMQ = window.matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)");
+
+  if (desmosVideo && desmosLink && motionPointerMQ.matches) {
+    var desmosLoaded = false;
+    var desmosActive = false;
+
+    function loadDesmosVideo() {
+      if (desmosLoaded) return;
+      desmosVideo.querySelectorAll("source[data-src]").forEach(function (source) {
+        source.src = source.dataset.src;
+      });
+      desmosLoaded = true;
+      desmosVideo.load();
+    }
+
+    function playDesmosVideo() {
+      desmosActive = true;
+      loadDesmosVideo();
+      var started = desmosVideo.play();
+      if (started && started.catch) started.catch(function () {});
+    }
+
+    function resetDesmosVideo() {
+      desmosActive = false;
+      desmosVideo.pause();
+      try { desmosVideo.currentTime = 0; } catch (_) {}
+    }
+
+    desmosVideo.addEventListener("canplay", function () {
+      if (!desmosActive) return;
+      var started = desmosVideo.play();
+      if (started && started.catch) started.catch(function () {});
+    });
+    desmosLink.addEventListener("pointerenter", playDesmosVideo);
+    desmosLink.addEventListener("pointerleave", resetDesmosVideo);
+    desmosLink.addEventListener("focus", playDesmosVideo);
+    desmosLink.addEventListener("blur", resetDesmosVideo);
+  }
+
   /* -------------------------------------------------------------- entrances */
 
   var reveals = document.querySelectorAll(".reveal");

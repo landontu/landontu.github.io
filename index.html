@@ -95,13 +95,18 @@
              private. Restore their cards from git history once public links
              are approved. -->
         <article class="project-card reveal" style="--i:0">
-          <a class="project-visual" href="https://www.desmos.com/calculator/msmxoizut3">
-            <!-- The GIF is level 1 turning slowly (captured from the Desmos graph with the
-                 controls hidden); readers who ask for reduced motion get its first frame. -->
-            <picture>
-              <source media="(prefers-reduced-motion: reduce)" srcset="assets/projects/desmos-game.webp">
-              <img src="assets/projects/desmos-game.gif" width="720" height="450" loading="lazy" decoding="async" alt="Desmos Quest level 1, a small island slowly rotating">
-            </picture>
+          <a class="project-visual" href="https://www.desmos.com/calculator/msmxoizut3" aria-label="Desmos Quest level 1, a small island slowly rotating">
+            <!-- Level 1 was captured from the release graph with its ticker stopped and
+                 controls hidden, advancing b_1 by exactly 1/216 turn per frame. The
+                 30 fps sources have no src until desktop hover or keyboard focus, so
+                 touch and reduced-motion readers keep the still without downloading video. -->
+            <span class="desmos-media">
+              <video class="desmos-video" width="720" height="450" muted loop playsinline preload="none" poster="assets/projects/desmos-game.webp" aria-hidden="true">
+                <source data-src="assets/projects/desmos-game.mp4" type="video/mp4">
+                <source data-src="assets/projects/desmos-game.webm" type="video/webm">
+              </video>
+              <span class="desmos-visual-title" aria-hidden="true">Desmos Quest</span>
+            </span>
           </a>
           <div class="project-meta">
             <h3><a href="https://www.desmos.com/calculator/msmxoizut3">Desmos Quest</a></h3>
@@ -133,11 +138,11 @@
                 <circle cx="480" cy="480" r="25"/><circle cx="600" cy="570" r="25"/><circle cx="810" cy="570" r="25"/>
               </g>
             </svg>
+            <span class="project-status">Coming soon</span>
           </div>
           <div class="project-meta">
             <h3>Stones</h3>
-            <!-- Stones one-line text slot — OWNER COPY PENDING. The captain writes this
-                 line; do not draft it. -->
+            <p>Compilation of 2 player board games with only one type of moving piece</p>
           </div>
         </article>
       </section>
