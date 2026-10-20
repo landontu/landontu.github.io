@@ -23,6 +23,8 @@ Read [README.md](README.md) first for the project map and local workflow.
 - WebHome and recall-AID cards are deferred while their repositories are
   private. Restore them from git history only after public destinations are
   approved.
+- The Stones card is paused but remains in `index.html` with `hidden`; remove
+  that attribute when the project returns to the approved launch set.
 - This is a dependency-free static site. Do not introduce a build system just
   to run or publish existing files.
 - `about.html` and `portfolio.html` intentionally preserve old URLs by
