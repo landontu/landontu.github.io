@@ -253,8 +253,7 @@ html.wc-deep-load .hero-rise { animation: none; }
 .inner-page { background-image: radial-gradient(circle at 90% 5%, color-mix(in srgb, var(--gold) 13%, transparent), transparent 30rem), linear-gradient(135deg, transparent 0 49.8%, color-mix(in srgb, var(--teal) 5%, transparent) 50% 50.2%, transparent 50.4%); }
 .page-shell { width: min(100% - 3rem, 76rem); min-height: calc(100vh - 12rem); margin: 3.5rem auto 5rem; }
 
-.portfolio-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; padding: 3rem 0 4rem; }
-.project-card { grid-column: span 6; }
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding: 3rem 0 4rem; }
 .project-visual { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 8px; background: var(--paper-raised); }
 .project-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out), filter .35s ease; }
 a.project-visual:hover img, a.project-visual:hover svg { transform: scale(1.025); }
@@ -266,6 +265,11 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 .stones-pieces { fill: var(--ink); stroke: var(--paper-raised); stroke-width: 8; }
 .project-meta { padding: 1rem .2rem 2rem; }
 .project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
+.project-meta p { margin: .6rem 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; }
+/* The placeholder card keeps the 16:10 footprint so the row stays level; it is
+   a plain tint, not a bordered tile, and its title is quiet because it is not a link. */
+.project-visual-soon { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+.project-card:has(.project-visual-soon) .project-meta h3 { color: var(--ink-soft); }
 .project-meta h3 a { text-decoration: none; }
 .project-meta h3 a { transition: color .14s ease; }
 .project-meta h3 a:hover { color: var(--teal); }
@@ -290,10 +294,11 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 /* The about section opens on its own display word rather than a second copy
    of the name. The inset carries the alignment established by the portfolio. */
 .about-intro { position: relative; padding: 4.5rem 0 5rem; border-bottom: 1px solid var(--line); }
-/* One display word per movement, at one size. About indents its word to the
-   9rem number rail; Portfolio gets there by sitting in the rail's grid column
-   instead, with its eyebrow in the rail itself. */
+/* About indents its display word to the 9rem number rail. Portfolio has no
+   eyebrow and sits flush left over its grid, at a deliberately smaller size
+   (owner decision) than About's word. */
 .about-display, .portfolio-display { margin: 0; font: 500 clamp(4.4rem, 10vw, 8.5rem)/.85 Georgia, "Times New Roman", serif; letter-spacing: -.065em; }
+.portfolio-display { font-size: clamp(2.6rem, 5vw, 4.25rem); }
 .about-display { margin-left: 9rem; }
 .about-coming-soon { min-height: 20rem; display: grid; align-items: center; padding: 5rem 0 5rem 9rem; border-bottom: 1px solid var(--line); }
 .about-coming-soon p { margin: 0; color: var(--ink-soft); font: 500 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, "Times New Roman", serif; }
@@ -318,18 +323,15 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
     color-mix(in srgb, var(--paper) 62%, transparent) 7rem,
     color-mix(in srgb, var(--paper) 89%, transparent) 16rem);
 }
-.portfolio-inner { width: min(100% - 3rem, 76rem); margin: 0 auto; }
-/* Eyebrow in the 9rem rail, display word beside it — the same left gutter the
-   01–04 numbers and the about word already use, so the descent keeps one
-   vertical alignment from the hero to the footer. */
+/* 75% of the viewport (owner decision), capped at the 76rem measure. */
+.portfolio-inner { width: min(75%, 76rem); margin: 0 auto; }
 /* 7rem of lead-in, not 5: the site header is fixed at 6.25rem on this page, so
    anything less and an anchor landing that puts #portfolio's top at y=0 tucks
    the display word under the nav pill. About clears it by accident (its own
    intro padding puts the word at ~136px); this makes it deliberate. */
-.portfolio-intro { display: grid; grid-template-columns: 9rem 1fr; align-items: end; padding: 7rem 0 3.75rem; border-bottom: 1px solid var(--line); }
-.portfolio-intro .eyebrow { margin: 0 0 .45rem; }
+.portfolio-intro { padding: 7rem 0 3.75rem; border-bottom: 1px solid var(--line); }
 
-.site-footer { width: min(100% - 3rem, 76rem); margin: 0 auto; padding: 2rem 0 3rem; display: flex; gap: .7rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.site-footer { margin: 0 auto; padding: 2rem 0 3rem; display: flex; gap: .7rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
 .site-footer a { color: var(--ink); text-decoration: none; }
 /* …and it should not LOOK like it is fighting the panel either: the toggle sits
    at bottom-left 1rem, so the byline gets enough floor under it to clear the
@@ -355,6 +357,13 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 }
 .js-reveal .reveal.is-in { opacity: 1; transform: none; }
 
+/* Three columns at 75% needs room; below 900px the grid takes the full measure
+   and drops to two columns (the placeholder card ends up alone on row two). */
+@media (max-width: 900px) {
+  .portfolio-inner { width: min(100% - 3rem, 76rem); }
+  .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 700px) {
   .site-header { width: min(100% - 1rem, 84rem); height: 5rem; gap: .45rem; }
   .site-nav a { padding: .55rem .62rem; font-size: .7rem; }
@@ -368,14 +377,13 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
   .page-shell { width: min(100% - 2rem, 76rem); margin-top: 1rem; }
   .portfolio-shell { scroll-margin-top: 5rem; }
   .portfolio-inner { width: min(100% - 2rem, 76rem); }
-  .portfolio-intro { grid-template-columns: 1fr; padding: 3rem 0 2.5rem; }
+  .portfolio-intro { padding: 3rem 0 2.5rem; }
   .about-intro { padding: 2.5rem 0; }
   .about-display, .portfolio-display { font-size: clamp(3.6rem, 18vw, 6rem); }
   .about-display { margin-left: 0; }
-  .portfolio-intro .eyebrow { margin-bottom: 1rem; }
-  .project-card { grid-column: 1 / -1; }
+  .portfolio-display { font-size: clamp(2.4rem, 12vw, 3.4rem); }
+  .portfolio-grid { grid-template-columns: 1fr; }
   .about-coming-soon { min-height: 14rem; padding: 3rem 0; }
-  .site-footer { width: min(100% - 2rem, 76rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {

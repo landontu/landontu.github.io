@@ -20,6 +20,12 @@ Read [README.md](README.md) first for the project map and local workflow.
   owner-text area in `watercolor.html` uses “Coming soon.” Do not draft
   replacement copy. Project description slots are intentionally empty source
   comments until owner copy is available.
+- Owner text decisions (2026-10-20): the header LT wordmark and the hero
+  “Hello, I’m” line are removed (the hero line stays as a restoration comment);
+  the portfolio has no eyebrow, a deliberately small heading, three columns at
+  75% width, and a “Coming soon” placeholder card. The Desmos Quest and This
+  site cards' images and alt text are unchanged; the This site screenshot
+  predates these header/hero changes.
 - WebHome and recall-AID cards are deferred while their repositories are
   private. Restore them from git history only after public destinations are
   approved.

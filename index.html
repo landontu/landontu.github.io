@@ -48,7 +48,8 @@
            animates. -->
       <div class="hero" id="hero">
         <div class="hero-rise">
-          <p class="eyebrow">Hello, I’m</p>
+          <!-- Hero intro line slot — removed for now. To restore, add back
+               <p class="eyebrow">Hello, I’m</p> above the h1. -->
           <h1>Landon Tu</h1>
           <!-- Hero tagline slot — owner copy pending. -->
           <!-- About entry point — restore when the owner copy is ready:
@@ -86,8 +87,7 @@
     <section class="portfolio-shell" id="portfolio" aria-labelledby="portfolio-heading">
      <div class="portfolio-inner">
       <header class="portfolio-intro">
-        <p class="eyebrow reveal" style="--i:0">Selected work</p>
-        <h2 class="portfolio-display reveal" id="portfolio-heading" style="--i:1">Portfolio</h2>
+        <h2 class="portfolio-display reveal" id="portfolio-heading" style="--i:0">Portfolio</h2>
       </header>
 
       <section class="portfolio-grid" aria-label="Portfolio exhibits">
@@ -100,7 +100,7 @@
           </a>
           <div class="project-meta">
             <h3><a href="https://www.desmos.com/calculator/bvrtbixju4">Desmos Quest</a></h3>
-            <!-- Project description slot — owner copy pending. -->
+            <p>Captain Toad inspired game made fully in Desmos! More coming soon...</p>
           </div>
         </article>
 
@@ -127,8 +127,15 @@
             <img src="assets/projects/personal-website.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Landon Tu personal website over its interactive watercolor background">
           </a>
           <div class="project-meta">
-            <h3><a href="watercolor.html">This site</a></h3>
-            <!-- Project description slot — owner copy pending. -->
+            <h3><a href="watercolor.html">Fluid Background</a></h3>
+            <p>Watercolor inspired fluid sim made for this site's background.</p>
+          </div>
+        </article>
+
+        <article class="project-card reveal" style="--i:3">
+          <div class="project-visual project-visual-soon" aria-hidden="true"></div>
+          <div class="project-meta">
+            <h3>Coming soon</h3>
           </div>
         </article>
       </section>
