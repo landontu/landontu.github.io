@@ -29,7 +29,7 @@
 
   /* --------------------------------------------------- same-document links
 
-     The wordmark, the nav's "Home" and the footer byline all point at
+     The nav's "Home" and the footer byline both point at
      index.html. On index.html that is a full document reload: the watercolor
      canvas is torn down and reseeded, the panel's settings were (until the
      companion change in watercolor/main.js) thrown away, and the reader is
@@ -60,8 +60,8 @@
     if (url.origin !== location.origin) return false;
     if (url.pathname !== location.pathname) return false;
     // An href with NO query of its own means "this document, wherever you are":
-    // the wordmark, nav Home and the footer byline are all a bare `index.html`.
-    // Comparing that strictly against a live `?seed=7&panel=open` made all three
+    // nav Home and the footer byline are both a bare `index.html`.
+    // Comparing that strictly against a live `?seed=7&panel=open` made both
     // fall through to a REAL navigation — which then dropped the query on the
     // floor, i.e. the exact reload-and-lose-your-composition this handler exists
     // to prevent, just hidden behind a URL nobody tests with. An href that does
@@ -89,7 +89,7 @@
       history.replaceState(null, '', next);
     }
     // Focus follows the scroll or the page becomes keyboard-hostile: without
-    // this, Tab after clicking the wordmark resumes from wherever the reader
+    // this, Tab after clicking a home link resumes from wherever the reader
     // was, not from the top.
     var focusTarget = target || document.querySelector('.site-header a');
     if (focusTarget) {
