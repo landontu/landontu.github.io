@@ -67,8 +67,9 @@ public state and needs the owner's approval; none is part of routine testing.
    `https://`.
 5. **Stones subdomain.** `stones.landontu.dev` is a separate DNS record for a
    separate host and does not depend on the Pages source. Its portfolio card is
-   currently hidden, so this host is not a launch dependency. Require an
-   anonymous 200 over HTTPS before restoring the card.
+   shown as a muted, non-clickable coming-soon card with no link, so this host
+   is not a launch dependency. Require an anonymous 200 over HTTPS before
+   linking the card.
 6. **Preflight, then source switch.** Recheck the
    [launch-readiness facts](#current-launch-readiness-facts) against `main`
    and confirm steps 1–4 still hold. Only then set the Pages source to `main`
@@ -110,13 +111,14 @@ owner-authored content:
 - The hero tagline, About movement, About navigation item, and hero About link
   are hidden until owner copy is ready; restoration slots remain in source.
   The watercolor exhibit holds its owner-written text as “Coming soon.”
-  Portfolio description slots remain empty in source comments until owner copy
-  is ready.
+  The Stones card's one-line description is an empty, marked slot in
+  `index.html` until the owner supplies it.
 - WebHome and recall-AID are intentionally absent while their only destinations
   are private repositories. Their cards and screenshots are removed from
   `main` and remain recoverable from git history.
-- The Stones card is paused and hidden in source. Its destination is not a
-  dependency for this launch; require an anonymous 200 before restoring it.
+- The Stones card is visible but muted and unlinked (coming soon). Its
+  destination is not a dependency for this launch; require an anonymous 200
+  before linking it.
 - `index.html` has a title and generic description, but no Open Graph or Twitter
   card metadata and no absolute canonical URL.
 - `main` has no custom `404.html`, `robots.txt`, or `sitemap.xml`.

@@ -255,6 +255,7 @@ html.wc-deep-load .hero-rise { animation: none; }
 
 .portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding: 3rem 0 4rem; }
 .project-visual { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 8px; background: var(--paper-raised); }
+.project-visual picture { display: block; width: 100%; height: 100%; }
 .project-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out), filter .35s ease; }
 a.project-visual:hover img, a.project-visual:hover svg { transform: scale(1.025); }
 a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
@@ -266,10 +267,11 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 .project-meta { padding: 1rem .2rem 2rem; }
 .project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
 .project-meta p { margin: .6rem 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; }
-/* The placeholder card keeps the 16:10 footprint so the row stays level; it is
-   a plain tint, not a bordered tile, and its title is quiet because it is not a link. */
-.project-visual-soon { background: color-mix(in srgb, var(--ink) 6%, transparent); }
-.project-card:has(.project-visual-soon) .project-meta h3 { color: var(--ink-soft); }
+/* A coming-soon card (Stones) is muted rather than boxed: same 16:10 footprint so
+   the row stays level, but desaturated, with a quiet title. It is not a link, so
+   there is no hover or focus state to style; `a.project-visual:hover` never matches it. */
+.project-card-soon .project-visual { filter: grayscale(.9); opacity: .55; }
+.project-card-soon .project-meta h3 { color: var(--ink-soft); }
 .project-meta h3 a { text-decoration: none; }
 .project-meta h3 a { transition: color .14s ease; }
 .project-meta h3 a:hover { color: var(--teal); }

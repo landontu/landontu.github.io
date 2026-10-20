@@ -95,34 +95,21 @@
              private. Restore their cards from git history once public links
              are approved. -->
         <article class="project-card reveal" style="--i:0">
-          <a class="project-visual" href="https://www.desmos.com/calculator/bvrtbixju4">
-            <img src="assets/projects/desmos-game.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Desmos Quest title screen with a Play button">
+          <a class="project-visual" href="https://www.desmos.com/calculator/msmxoizut3">
+            <!-- The GIF is level 1 turning slowly (captured from the Desmos graph with the
+                 controls hidden); readers who ask for reduced motion get its first frame. -->
+            <picture>
+              <source media="(prefers-reduced-motion: reduce)" srcset="assets/projects/desmos-game.webp">
+              <img src="assets/projects/desmos-game.gif" width="720" height="450" loading="lazy" decoding="async" alt="Desmos Quest level 1, a small island slowly rotating">
+            </picture>
           </a>
           <div class="project-meta">
-            <h3><a href="https://www.desmos.com/calculator/bvrtbixju4">Desmos Quest</a></h3>
+            <h3><a href="https://www.desmos.com/calculator/msmxoizut3">Desmos Quest</a></h3>
             <p>Captain Toad inspired game made fully in Desmos! More coming soon...</p>
           </div>
         </article>
 
-        <!-- Stones is paused; remove `hidden` when the project returns to the launch set. -->
-        <article class="project-card reveal" style="--i:1" hidden>
-          <a class="project-visual stones-visual" href="https://stones.landontu.dev" aria-label="Open Stones">
-            <svg viewBox="0 0 1200 750" aria-hidden="true">
-              <rect class="stones-board" x="300" y="90" width="600" height="570" rx="8"/>
-              <path class="stones-lines" d="M390 180H810V570H390ZM480 270H720V480H480ZM300 375H900M600 90V660"/>
-              <g class="stones-pieces">
-                <circle cx="390" cy="180" r="25"/><circle cx="600" cy="180" r="25"/><circle cx="720" cy="270" r="25"/>
-                <circle cx="480" cy="480" r="25"/><circle cx="600" cy="570" r="25"/><circle cx="810" cy="570" r="25"/>
-              </g>
-            </svg>
-          </a>
-          <div class="project-meta">
-            <h3><a href="https://stones.landontu.dev">Stones</a></h3>
-            <!-- Project description slot — owner copy pending. -->
-          </div>
-        </article>
-
-        <article class="project-card reveal" style="--i:2">
+        <article class="project-card reveal" style="--i:1">
           <a class="project-visual" href="watercolor.html">
             <img src="assets/projects/personal-website.webp" width="1200" height="750" loading="lazy" decoding="async" alt="The Landon Tu personal website over its interactive watercolor background">
           </a>
@@ -132,10 +119,25 @@
           </div>
         </article>
 
-        <article class="project-card reveal" style="--i:3">
-          <div class="project-visual project-visual-soon" aria-hidden="true"></div>
+        <!-- Stones is shown as a muted, non-clickable coming-soon card: no link, no
+             hover state. It stays unlinked until stones.landontu.dev returns an
+             anonymous 200 over HTTPS (docs/PUBLISHING.md); then make the visual and
+             title links to https://stones.landontu.dev and drop the soon styling. -->
+        <article class="project-card project-card-soon reveal" style="--i:2" aria-disabled="true">
+          <div class="project-visual stones-visual">
+            <svg viewBox="0 0 1200 750" aria-hidden="true">
+              <rect class="stones-board" x="300" y="90" width="600" height="570" rx="8"/>
+              <path class="stones-lines" d="M390 180H810V570H390ZM480 270H720V480H480ZM300 375H900M600 90V660"/>
+              <g class="stones-pieces">
+                <circle cx="390" cy="180" r="25"/><circle cx="600" cy="180" r="25"/><circle cx="720" cy="270" r="25"/>
+                <circle cx="480" cy="480" r="25"/><circle cx="600" cy="570" r="25"/><circle cx="810" cy="570" r="25"/>
+              </g>
+            </svg>
+          </div>
           <div class="project-meta">
-            <h3>Coming soon</h3>
+            <h3>Stones</h3>
+            <!-- Stones one-line text slot — OWNER COPY PENDING. The captain writes this
+                 line; do not draft it. -->
           </div>
         </article>
       </section>
