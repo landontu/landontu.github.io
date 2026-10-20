@@ -246,7 +246,7 @@
   var desmosLink = desmosVideo && desmosVideo.closest("a.project-visual");
   var motionPointerMQ = window.matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)");
 
-  if (desmosVideo && desmosLink && motionPointerMQ.matches) {
+  if (desmosVideo && desmosLink) {
     var desmosLoaded = false;
     var desmosHovered = false;
     var desmosFocused = false;
@@ -261,13 +261,22 @@
     }
 
     function desmosActive() {
-      return desmosHovered || desmosFocused;
+      return motionPointerMQ.matches && (desmosHovered || desmosFocused);
+    }
+
+    function desmosKeyboardFocused() {
+      try { return desmosLink.matches(":focus-visible"); } catch (_) { return false; }
+    }
+
+    function startDesmosVideo() {
+      var started = desmosVideo.play();
+      if (started && started.catch) started.catch(function () {});
     }
 
     function playDesmosVideo() {
+      if (!desmosActive()) return;
       loadDesmosVideo();
-      var started = desmosVideo.play();
-      if (started && started.catch) started.catch(function () {});
+      startDesmosVideo();
     }
 
     function resetDesmosVideo() {
@@ -277,11 +286,10 @@
     }
 
     desmosVideo.addEventListener("canplay", function () {
-      if (!desmosActive()) return;
-      var started = desmosVideo.play();
-      if (started && started.catch) started.catch(function () {});
+      if (desmosActive()) startDesmosVideo();
     });
-    desmosLink.addEventListener("pointerenter", function () {
+    desmosLink.addEventListener("pointerenter", function (event) {
+      if (event.pointerType === "touch") return;
       desmosHovered = true;
       playDesmosVideo();
     });
@@ -290,13 +298,14 @@
       resetDesmosVideo();
     });
     desmosLink.addEventListener("focus", function () {
-      desmosFocused = true;
+      desmosFocused = desmosKeyboardFocused();
       playDesmosVideo();
     });
     desmosLink.addEventListener("blur", function () {
       desmosFocused = false;
       resetDesmosVideo();
     });
+    motionPointerMQ.addEventListener("change", resetDesmosVideo);
   }
 
   /* -------------------------------------------------------------- entrances */
