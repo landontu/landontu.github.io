@@ -27,10 +27,11 @@ Read [README.md](README.md) first for the project map and local workflow.
   captured deterministically at 30 fps from the release graph
   https://www.desmos.com/calculator/msmxoizut3 via `Calc` with the Menus and HUD
   and Control stick folders hidden. Its `desmos-game.webp` poster is the default;
-  desktop hover or keyboard focus lazy-loads and plays the video, while leave or
-  blur resets it. Touch and reduced-motion readers never load the video. The
-  This site card image is a stale screenshot that predates the header/hero
-  changes; replace it only if the owner asks.
+  desktop hover or keyboard focus lazy-loads and plays the video, which resets
+  to the poster frame once neither hover nor focus remains. Touch and
+  reduced-motion readers never load the video. The This site card image is a
+  stale screenshot that predates the header/hero changes; replace it only if
+  the owner asks.
 - WebHome and recall-AID cards are deferred while their repositories are
   private. Restore them from git history only after public destinations are
   approved.

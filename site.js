@@ -240,8 +240,10 @@
   /* ---------------------------------------------------- project-card video
      The poster is the default, not a loading placeholder. Video sources stay
      inert in data-src attributes until a hover-capable, non-reduced-motion
-     reader asks for motion. That keeps the 250 KB pair off phones and out of
-     the initial page load; pointer leave and focus loss return to frame zero. */
+     reader asks for motion. That keeps the ~130 KB clip (MP4, or the WebM
+     fallback) off phones and out of the initial page load. Once neither hover
+     nor keyboard focus remains, or the media query stops matching, playback
+     returns to frame zero. */
   var desmosVideo = document.querySelector(".desmos-video");
   var desmosLink = desmosVideo && desmosVideo.closest("a.project-visual");
   var motionPointerMQ = window.matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)");
