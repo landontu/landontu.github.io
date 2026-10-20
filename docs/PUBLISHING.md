@@ -111,8 +111,6 @@ owner-authored content:
 - The hero tagline, About movement, About navigation item, and hero About link
   are hidden until owner copy is ready; restoration slots remain in source.
   The watercolor exhibit holds its owner-written text as “Coming soon.”
-  The Stones card's one-line description is an empty, marked slot in
-  `index.html` until the owner supplies it.
 - WebHome and recall-AID are intentionally absent while their only destinations
   are private repositories. Their cards and screenshots are removed from
   `main` and remain recoverable from git history.

@@ -248,7 +248,8 @@
 
   if (desmosVideo && desmosLink && motionPointerMQ.matches) {
     var desmosLoaded = false;
-    var desmosActive = false;
+    var desmosHovered = false;
+    var desmosFocused = false;
 
     function loadDesmosVideo() {
       if (desmosLoaded) return;
@@ -259,28 +260,43 @@
       desmosVideo.load();
     }
 
+    function desmosActive() {
+      return desmosHovered || desmosFocused;
+    }
+
     function playDesmosVideo() {
-      desmosActive = true;
       loadDesmosVideo();
       var started = desmosVideo.play();
       if (started && started.catch) started.catch(function () {});
     }
 
     function resetDesmosVideo() {
-      desmosActive = false;
+      if (desmosActive()) return;
       desmosVideo.pause();
       try { desmosVideo.currentTime = 0; } catch (_) {}
     }
 
     desmosVideo.addEventListener("canplay", function () {
-      if (!desmosActive) return;
+      if (!desmosActive()) return;
       var started = desmosVideo.play();
       if (started && started.catch) started.catch(function () {});
     });
-    desmosLink.addEventListener("pointerenter", playDesmosVideo);
-    desmosLink.addEventListener("pointerleave", resetDesmosVideo);
-    desmosLink.addEventListener("focus", playDesmosVideo);
-    desmosLink.addEventListener("blur", resetDesmosVideo);
+    desmosLink.addEventListener("pointerenter", function () {
+      desmosHovered = true;
+      playDesmosVideo();
+    });
+    desmosLink.addEventListener("pointerleave", function () {
+      desmosHovered = false;
+      resetDesmosVideo();
+    });
+    desmosLink.addEventListener("focus", function () {
+      desmosFocused = true;
+      playDesmosVideo();
+    });
+    desmosLink.addEventListener("blur", function () {
+      desmosFocused = false;
+      resetDesmosVideo();
+    });
   }
 
   /* -------------------------------------------------------------- entrances */
