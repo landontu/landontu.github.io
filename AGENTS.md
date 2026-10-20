@@ -35,8 +35,9 @@ Read [README.md](README.md) first for the project map and local workflow.
   private. Restore them from git history only after public destinations are
   approved.
 - The Stones card is a muted, non-clickable coming-soon card (no link,
-  `aria-disabled`). Link it to https://stones.landontu.dev only after that host
-  returns an anonymous 200 over HTTPS.
+  `aria-disabled`) with a solid “Coming soon” status tag over its artwork and
+  the owner's one-line description. Link it to https://stones.landontu.dev only
+  after that host returns an anonymous 200 over HTTPS.
 - This is a dependency-free static site. Do not introduce a build system just
   to run or publish existing files.
 - `about.html` and `portfolio.html` intentionally preserve old URLs by

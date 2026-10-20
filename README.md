@@ -33,8 +33,9 @@ console and local asset requests are clean.
   its simulation modules.
 - `styles.css`, `watercolor*.css`, `showcase.css`, `site.js` — site presentation
   and behavior.
-- `assets/` — project images used by the main page and the self-hosted Hanken
-  Grotesk font (`assets/fonts/`, with its `OFL.txt` license).
+- `assets/` — project images and the Desmos Quest hover video used by the main
+  page, and the self-hosted Hanken Grotesk font (`assets/fonts/`, with its
+  `OFL.txt` license).
 - `CNAME` — the `landontu.dev` custom domain GitHub Pages reads once `main` is
   the source. DNS and HTTPS must be ready first; see
   [Publishing](docs/PUBLISHING.md#custom-domain-and-launch-order).
