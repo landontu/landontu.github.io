@@ -278,16 +278,21 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
    sits outside that muting and in the clear band above the board, so its contrast
    survives both themes without covering the artwork's edge. That band is the
    top 85/1200 of the visual's width (board y=90 less half its 10-unit stroke),
-   so the tag is sized in cqw to scale with it: .6 + 2 × .3 + 4.3 × 1.15 ≈ 6.15cqw
-   leaves about .9cqw clear above the board at every card width and font size.
-   The rem caps only ever shrink it, holding the original size on wide cards. */
+   so the tag is centred in it at 3.54cqw. The label keeps its full size, so the
+   band only holds it (1.31rem tall plus 1px either side) on cards at least
+   20.25rem wide, which includes 1440px and single-column phones. Narrower cards
+   move the intact tag to the board's centre instead, capped 1rem inside the
+   board's 50cqw width so it wraps onto two lines rather than reach an edge. */
 .project-card-soon .stones-visual svg { filter: grayscale(.9); opacity: .55; }
 .project-status {
-  position: absolute; left: 50%; top: min(.6cqw, .1875rem);
-  padding: min(.3cqw, .125rem) min(1.5cqw, .5rem); border-radius: 2px;
+  position: absolute; left: 50%; top: 3.54cqw;
+  padding: .125rem .5rem; border-radius: 2px;
   background: var(--ink); color: var(--paper-raised);
-  font-size: min(4.3cqw, .8125rem); font-weight: 650; line-height: 1.15; white-space: nowrap;
-  transform: translateX(-50%);
+  font-size: .8125rem; font-weight: 650; line-height: 1.3; white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+@container (width < 20.25rem) {
+  .project-status { top: 50%; max-width: calc(50cqw - 2rem); white-space: normal; text-align: center; }
 }
 .project-card-soon .project-meta h3 { color: var(--ink-soft); }
 .project-meta h3 a { text-decoration: none; }
