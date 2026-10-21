@@ -281,8 +281,9 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
    so the tag is centred in it at 3.54cqw. The label keeps its full size, so the
    band only holds it (1.31rem tall plus 1px either side) on cards at least
    20.25rem wide, which includes 1440px and single-column phones. Narrower cards
-   move the intact tag to the board's centre instead, capped 1rem inside the
-   board's 50cqw width so it wraps onto two lines rather than reach an edge. */
+   centre the intact one-line tag on the board's crossing instead: about 93 by
+   21px, it covers only crossing lines and stays clear of all six pieces and
+   every board edge down to the narrowest (about 209px) three-column card. */
 .project-card-soon .stones-visual svg { filter: grayscale(.9); opacity: .55; }
 .project-status {
   position: absolute; left: 50%; top: 3.54cqw;
@@ -292,7 +293,7 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
   transform: translate(-50%, -50%);
 }
 @container (width < 20.25rem) {
-  .project-status { top: 50%; max-width: calc(50cqw - 2rem); white-space: normal; text-align: center; }
+  .project-status { top: 50%; }
 }
 .project-card-soon .project-meta h3 { color: var(--ink-soft); }
 .project-meta h3 a { text-decoration: none; }
