@@ -276,13 +276,17 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 /* A coming-soon card (Stones) is muted rather than boxed: same 16:10 footprint so
    the row stays level, but desaturated, with a quiet title. The solid status tag
    sits outside that muting and in the clear band above the board, so its contrast
-   survives both themes without covering the artwork's edge. */
+   survives both themes without covering the artwork's edge. That band is the
+   top 85/1200 of the visual's width (board y=90 less half its 10-unit stroke),
+   so the tag is sized in cqw to scale with it: .6 + 2 × .3 + 4.3 × 1.15 ≈ 6.15cqw
+   leaves about .9cqw clear above the board at every card width and font size.
+   The rem caps only ever shrink it, holding the original size on wide cards. */
 .project-card-soon .stones-visual svg { filter: grayscale(.9); opacity: .55; }
 .project-status {
-  position: absolute; left: 50%; top: .1875rem;
-  padding: .125rem .5rem; border-radius: 2px;
+  position: absolute; left: 50%; top: min(.6cqw, .1875rem);
+  padding: min(.3cqw, .125rem) min(1.5cqw, .5rem); border-radius: 2px;
   background: var(--ink); color: var(--paper-raised);
-  font-size: .8125rem; font-weight: 650; line-height: 1.3;
+  font-size: min(4.3cqw, .8125rem); font-weight: 650; line-height: 1.15; white-space: nowrap;
   transform: translateX(-50%);
 }
 .project-card-soon .project-meta h3 { color: var(--ink-soft); }
