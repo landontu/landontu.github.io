@@ -74,7 +74,8 @@
 }
 
 * { box-sizing: border-box; }
-html { min-height: 100%; background: var(--paper); scroll-behavior: smooth; }
+html { min-height: 100%; background: var(--paper); scroll-behavior: smooth; scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
 body { min-height: 100vh; margin: 0; background: var(--paper); color: var(--ink); }
 a { color: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
