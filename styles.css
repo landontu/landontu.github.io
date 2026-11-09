@@ -276,8 +276,11 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 .betting-board { fill: color-mix(in srgb, var(--gold) 18%, var(--paper-raised)); }
 .betting-dark { fill: color-mix(in srgb, var(--teal) 55%, var(--paper-raised)); }
 .betting-frame { fill: none; stroke: var(--teal); stroke-width: 10; }
-.betting-chip { fill: var(--gold); stroke: var(--ink); stroke-width: 8; }
-.betting-chip-ring { fill: none; stroke: var(--ink); stroke-width: 6; }
+.betting-chip { fill: var(--gold); stroke: var(--ink); stroke-width: 6; }
+/* Dashed inner ring: the notched edge that reads as a betting chip. The chip sits on a
+   dark square in the lower half so the narrow-card tag (centred on the board, about
+   y 314-436) never covers it. */
+.betting-chip-edge { fill: none; stroke: var(--ink); stroke-width: 5; stroke-dasharray: 11 6.95; }
 .project-meta { padding: 1rem .2rem 2rem; }
 .project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
 .project-meta p { margin: .6rem 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; }
