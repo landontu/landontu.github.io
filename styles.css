@@ -271,10 +271,17 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
 .stones-board { fill: color-mix(in srgb, var(--gold) 18%, var(--paper-raised)); stroke: var(--teal); stroke-width: 10; }
 .stones-lines { fill: none; stroke: var(--teal); stroke-linecap: square; stroke-linejoin: miter; stroke-width: 10; }
 .stones-pieces { fill: var(--ink); stroke: var(--paper-raised); stroke-width: 8; }
+.betting-visual { color: var(--teal); }
+.betting-visual svg { display: block; width: 100%; height: 100%; transition: transform .7s var(--ease-out); }
+.betting-board { fill: color-mix(in srgb, var(--gold) 18%, var(--paper-raised)); }
+.betting-dark { fill: color-mix(in srgb, var(--teal) 55%, var(--paper-raised)); }
+.betting-frame { fill: none; stroke: var(--teal); stroke-width: 10; }
+.betting-chip { fill: var(--gold); stroke: var(--ink); stroke-width: 8; }
+.betting-chip-ring { fill: none; stroke: var(--ink); stroke-width: 6; }
 .project-meta { padding: 1rem .2rem 2rem; }
 .project-meta h3 { margin: 0; font: 500 1.6rem/1.2 Georgia, serif; }
 .project-meta p { margin: .6rem 0 0; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; }
-/* A coming-soon card (Stones) is muted rather than boxed: same 16:10 footprint so
+/* A coming-soon card (Betting Chess) is muted rather than boxed: same 16:10 footprint so
    the row stays level, but desaturated, with a quiet title. The solid status tag
    sits outside that muting and in the clear band above the board, so its contrast
    survives both themes without covering the artwork's edge. That band is the
@@ -285,7 +292,7 @@ a.project-visual:focus-visible { outline: 3px solid var(--gold); outline-offset:
    centre the intact one-line tag on the board's crossing instead: about 93 by
    21px, it covers only crossing lines and stays clear of all six pieces and
    every board edge down to the narrowest (about 209px) three-column card. */
-.project-card-soon .stones-visual svg { filter: grayscale(.9); opacity: .55; }
+.project-card-soon .project-visual svg { filter: grayscale(.9); opacity: .55; }
 .project-status {
   position: absolute; left: 50%; top: 3.54cqw;
   padding: .125rem .5rem; border-radius: 2px;

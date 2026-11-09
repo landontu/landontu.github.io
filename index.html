@@ -124,13 +124,8 @@
           </div>
         </article>
 
-        <!-- Stones is shown as a muted, non-clickable coming-soon card: no link, no
-             hover state. It stays unlinked until stones.landontu.dev returns an
-             anonymous 200 over HTTPS (docs/PUBLISHING.md); then make the visual and
-             title links to https://stones.landontu.dev and drop the soon styling and
-             the "Coming soon" status tag. -->
-        <article class="project-card project-card-soon reveal" style="--i:2" aria-disabled="true">
-          <div class="project-visual stones-visual">
+        <article class="project-card reveal" style="--i:2">
+          <a class="project-visual stones-visual" href="https://stones.landontu.dev" aria-label="Stones, a board with six pieces">
             <svg viewBox="0 0 1200 750" aria-hidden="true">
               <rect class="stones-board" x="300" y="90" width="600" height="570" rx="8"/>
               <path class="stones-lines" d="M390 180H810V570H390ZM480 270H720V480H480ZM300 375H900M600 90V660"/>
@@ -139,11 +134,31 @@
                 <circle cx="480" cy="480" r="25"/><circle cx="600" cy="570" r="25"/><circle cx="810" cy="570" r="25"/>
               </g>
             </svg>
+          </a>
+          <div class="project-meta">
+            <h3><a href="https://stones.landontu.dev">Stones</a></h3>
+            <p>Compilation of 2 player board games with only one type of moving piece.</p>
+          </div>
+        </article>
+
+        <!-- Betting Chess is shown as a muted, non-clickable coming-soon card: no link,
+             no hover state. Link it once the owner approves (bettingchess.landontu.dev);
+             then make the visual and title links to that address and drop the soon
+             styling and the "Coming soon" status tag. -->
+        <article class="project-card project-card-soon reveal" style="--i:3" aria-disabled="true">
+          <div class="project-visual betting-visual">
+            <svg viewBox="0 0 1200 750" aria-hidden="true">
+              <rect class="betting-board" x="316" y="90" width="568" height="568"/>
+              <path class="betting-dark" d="M387 90h71v71h-71ZM529 90h71v71h-71ZM671 90h71v71h-71ZM813 90h71v71h-71ZM316 161h71v71h-71ZM458 161h71v71h-71ZM600 161h71v71h-71ZM742 161h71v71h-71ZM387 232h71v71h-71ZM529 232h71v71h-71ZM671 232h71v71h-71ZM813 232h71v71h-71ZM316 303h71v71h-71ZM458 303h71v71h-71ZM600 303h71v71h-71ZM742 303h71v71h-71ZM387 374h71v71h-71ZM529 374h71v71h-71ZM671 374h71v71h-71ZM813 374h71v71h-71ZM316 445h71v71h-71ZM458 445h71v71h-71ZM600 445h71v71h-71ZM742 445h71v71h-71ZM387 516h71v71h-71ZM529 516h71v71h-71ZM671 516h71v71h-71ZM813 516h71v71h-71ZM316 587h71v71h-71ZM458 587h71v71h-71ZM600 587h71v71h-71ZM742 587h71v71h-71Z"/>
+              <rect class="betting-frame" x="316" y="90" width="568" height="568"/>
+              <circle class="betting-chip" cx="636" cy="339" r="56"/>
+              <circle class="betting-chip-ring" cx="636" cy="339" r="34"/>
+            </svg>
             <span class="project-status">Coming soon</span>
           </div>
           <div class="project-meta">
-            <h3>Stones</h3>
-            <p>Compilation of 2 player board games with only one type of moving piece.</p>
+            <h3>Betting Chess</h3>
+            <p>A new variant: Chess + Betting. Players no longer take turns. Instead, whoever bids the highest gets to move.</p>
           </div>
         </article>
       </section>
