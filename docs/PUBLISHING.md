@@ -114,9 +114,9 @@ owner-authored content:
   are private repositories. Their cards and screenshots are removed from
   `main` and remain recoverable from git history.
 - The Stones card links to https://stones.landontu.dev (anonymous HTTPS 200
-  confirmed 2026-11-08). The Betting Chess card is visible but muted and
-  unlinked (coming soon); do not link bettingchess.landontu.dev until the
-  owner approves.
+  confirmed 2026-11-08). The Betting Chess card links to
+  https://bettingchess.landontu.dev (owner approved 2026-11-09; anonymous HTTPS
+  200 confirmed 2026-11-09).
 - `index.html` has a title and generic description, but no Open Graph or Twitter
   card metadata and no absolute canonical URL.
 - `main` has no custom `404.html`, `robots.txt`, or `sitemap.xml`.

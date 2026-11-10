@@ -22,7 +22,7 @@ Read [README.md](README.md) first for the project map and local workflow.
 - Owner text decisions (2026-10-20): the header LT wordmark and the hero
   “Hello, I’m” line are removed (the hero line stays as a restoration comment);
   the portfolio has no eyebrow, a deliberately small heading, three columns at
-  75% width; Stones is live (2026-11-08) and Betting Chess is a muted coming-soon card. The Desmos Quest card
+  75% width; Stones is live (2026-11-08) and Betting Chess is live (2026-11-09). The Desmos Quest card
   shows level 1 turning slowly in `desmos-game.mp4` / `desmos-game.webm`,
   captured deterministically at 30 fps from the release graph
   https://www.desmos.com/calculator/msmxoizut3 via `Calc` with the Menus and HUD
@@ -37,12 +37,9 @@ Read [README.md](README.md) first for the project map and local workflow.
   approved.
 - The Stones card links to https://stones.landontu.dev like the other live
   cards (its host returned an anonymous HTTPS 200 on 2026-11-08).
-- The Betting Chess card is a muted, non-clickable coming-soon card (no link,
-  `aria-disabled`) with a solid “Coming soon” status tag and the owner's
-  verbatim blurb, with an inline SVG board and chip. The tag sits in the clear
-  band above the board, clear of its edges (narrow cards center it on the
-  board instead); `styles.css` documents the geometry. Link it to
-  bettingchess.landontu.dev only after the owner approves.
+- The Betting Chess card links to https://bettingchess.landontu.dev exactly like
+  the Stones card (visual and title are links; owner approved 2026-11-09), with
+  the owner's verbatim blurb and an inline SVG board and chip.
 - This is a dependency-free static site. Do not introduce a build system just
   to run or publish existing files.
 - `about.html` and `portfolio.html` intentionally preserve old URLs by
